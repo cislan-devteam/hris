@@ -88,7 +88,7 @@
                   placeholder="Confirm password" name="password_confirmation" type="password" required/>
               </label>
 
-              <div class="flex mt-4 text-sm">
+              <div class="flex mt-6 text-sm">
                 <label class="flex items-center dark:text-gray-400">
                   <input
                     type="checkbox"
