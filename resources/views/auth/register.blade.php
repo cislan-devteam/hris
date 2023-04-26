@@ -11,6 +11,8 @@
         @vite('resources/css/app.css')
     </head>
   <body>
+
+
     <!-- Image for Registration form -->
     <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
       <div
@@ -35,7 +37,19 @@
 
           <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
             <div class="w-full">
+
+
                 <x-validation-errors class="mb-4" />
+
+                @if (session()->has('msg'))
+
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                        {{session()->get('msg')}}
+
+                    </div>
+
+                @endif
               <h1
                 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200"
               >
