@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+
+/*
+*
+* Author: Dean Voltaire Tumangan
+* Email: dv.tumangan@gmail.com
+*
+*/
 
 namespace App\Models;
 
