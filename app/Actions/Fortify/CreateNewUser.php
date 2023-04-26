@@ -1,10 +1,18 @@
-<?php
+<?php declare(strict_types=1);
+
+/*
+*
+* Author: Dean Voltaire Tumangan
+* Email: dv.tumangan@gmail.com
+*
+*/
 
 namespace App\Actions\Fortify;
 
-use App\Models\Team;
+
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Models\UserRole;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -19,7 +27,7 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
-    public function create(array $input): User
+    public function create(array $input)
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
@@ -28,13 +36,21 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
-        return User::create([
+        $users =  User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
-                'role_id' => $input['role_id'],
         ]);
-    }
+
+        $userRole = new UserRole();
+
+        $userRole->user_id = $users->id;
+        $userRole->role_id = $input['role_id'];
+
+        $userRole->save();
+
+
+
 
     /**
      * Create a personal team for the user.
@@ -48,4 +64,6 @@ class CreateNewUser implements CreatesNewUsers
     //        'personal_team' => true,
     //    ]));
     //}
+    }
+
 }
