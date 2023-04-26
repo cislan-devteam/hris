@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdmin\SuperAdmin;
 use App\Http\Controllers\HR_Admin\HR_Admin;
@@ -53,4 +54,5 @@ Route::group(['middleware' => 'auth'], function() {
     });
 });
 
+    Route::post('/register', [RegisteredUserController::class, 'store']);
 
