@@ -29,6 +29,14 @@
                         {{ __('Time Off') }}
                     </x-nav-link>
                 </div>
+
+                @if (Auth::user()->role_id < 6)
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link href="{{ route('clockit.index') }}" :active="request()->routeIs('clockit.index')">
+                            {{ __('ClockIt') }}
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
