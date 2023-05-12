@@ -9,6 +9,7 @@ use App\Http\Controllers\Director\Director;
 use App\Http\Controllers\Employee\Employee;
 use App\Http\Controllers\HR_Admin\HR_Admin;
 use App\Http\Controllers\IT_Admin\IT_Admin;
+use App\Http\Controllers\TimeOffController;
 use App\Http\Controllers\SuperAdmin\SuperAdmin;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
@@ -44,6 +45,18 @@ Route::get('/tasks/{id}/edit', [UserProfile::class, 'edit'])->name('tasks.edit')
 Route::put('/tasks/{id}/edit', [UserProfile::class, 'update'])->name('tasks.update');
 
 Route::delete('/tasks/{id}', [UserProfile::class, 'destroy'])->name('tasks.destroy');
+
+// Time Off Controller
+Route::get('/timeoff', [TimeOffController::class, 'index'])->name('timeoff');
+Route::get('/create-time-off', [TimeOffController::class, 'create']);
+Route::post('/create-time-off', [TimeOffController::class, 'store'])->name('timeoff.store');
+
+Route::get('/view-timeoff/{id}', [TimeOffController::class, 'show'])->name('timeoff.shows');;
+
+Route::get('/timeoff/{id}/edit', [TimeOffController::class, 'edit'])->name('timeoff.edit');
+Route::put('/timeoff/{id}/edit', [TimeOffController::class, 'update'])->name('timeoff.update');
+
+Route::delete('/timeoff/{id}', [TimeOffController::class, 'destroy'])->name('timeoff.destroy');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:Super Admin', 'prefix' => 'superAdmin', 'as' => 'superAdmin.'], function () {
