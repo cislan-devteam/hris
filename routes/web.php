@@ -1,10 +1,12 @@
 <?php
 
 use Dcblogdev\Xero\Facades\Xero;
+use Dcblogdev\LaravelXero\Http\Controllers\XeroAuthController;
 use App\Http\Controllers\UserProfile;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\Client;
 use App\Http\Controllers\ClockItController;
+use App\Http\Controllers\XeroController;
 use App\Http\Controllers\Director\Director;
 use App\Http\Controllers\Employee\Employee;
 use App\Http\Controllers\HR_Admin\HR_Admin;
@@ -86,14 +88,24 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::group(['middleware' => ['web', 'XeroAuthenticated']], function(){
-    Route::match(['get', 'post'], 'xero', function () {
-        return Xero::contacts()->find('406e9eba-9939-48de-a300-57853bb1a6a4');
-    });
+// Route::group(['middleware' => ['web', 'XeroAuthenticated']], function(){
+//     Route::match(['get', 'post'], 'xero', function () {
+//         return Xero::contacts()->find('406e9eba-9939-48de-a300-57853bb1a6a4');
+//     });
+// });
+
+// Route::get('xero/connect', function(){
+//     return Xero::connect();
+// });
+
+// Xero
+Route::group(['middleware' => ['web']], function () {
+    Route::get('xero/auth', [XeroAuthController::class, 'index']);
+    Route::get('xero/auth/callback', [XeroAuthController::class, 'callback']);
+    Route::get('xero/auth/disconnect', [XeroAuthController::class, 'disconnect']);
 });
-Route::get('xero/connect', function(){
-    return Xero::connect();
-});
+
+Route::get('contacts', [XeroContactsController::class, 'index'])->name('contacts.index');
 
 Route::get('/clockit', [ClockItController::class, 'index'])->name('clockit.index');
 Route::post('clockit/clockin', [ClockItController::class, 'clockIn'])->name('clockit.clockin');

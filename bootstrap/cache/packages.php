@@ -1,4 +1,15 @@
 <?php return array (
+  'dcblogdev/laravel-xero' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Dcblogdev\\Xero\\XeroServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Xero' => 'Dcblogdev\\Xero\\Facades\\Xero',
+    ),
+  ),
   'jenssegers/agent' => 
   array (
     'providers' => 
