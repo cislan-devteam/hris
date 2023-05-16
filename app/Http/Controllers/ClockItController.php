@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\ClockIt;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ClockItController extends Controller
 {
+    
     public function clockIn(Request $request)
     {
         $clockIt = new ClockIt();
         $clockIt->user_id = auth()->user()->id;
+        $clockIt->date = now();
         $clockIt->clock_in = now();
         $clockIt->save();
 
@@ -39,12 +42,17 @@ class ClockItController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        $records = ClockIt::where('user_id', $user->id)
-                          ->orderBy('clock_in', 'desc')
-                          ->get();
-        
-        return view('clockit.index', ['records' => $records]);
+        if (auth()->check()) {
+            $user = auth()->user();
+            $records = ClockIt::where('user_id', $user->id)
+                              ->orderBy('clock_in', 'desc')
+                              ->get();
+
+            return view('clockit.index', compact('records'));
+
+            // Redirect to the login page if no user is authenticated
+            // return redirect('login')->with('error', 'You must be logged in to view this page.');
+        }
     }
 
 
