@@ -11,5 +11,5 @@ sed -i "s|DB_HOST=127.0.0.1|DB_HOST=mysql|g" .env
 sed -i "s|REDIS_HOST=127.0.0.1|REDIS_HOST=redis|g" .env
 echo 'SEEDING DATABASE'
 
-./vendor/bin/sail artisan migrate:fresh --seed
 ./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate:fresh --seed
