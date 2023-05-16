@@ -10,6 +10,7 @@ use App\Http\Controllers\Employee\Employee;
 use App\Http\Controllers\HR_Admin\HR_Admin;
 use App\Http\Controllers\IT_Admin\IT_Admin;
 use App\Http\Controllers\TimeOffController;
+use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\SuperAdmin\SuperAdmin;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
@@ -99,3 +100,5 @@ Route::get('/clockit', [ClockItController::class, 'index'])->name('clockit.index
 Route::post('clockit/clockin', [ClockItController::class, 'clockIn'])->name('clockit.clockin');
 Route::post('clockit/clockout', [ClockItController::class, 'clockOut'])->name('clockit.clockout');
 Route::resource('clockit', ClockItController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+Route::get('/add-user', [ManageUserController::class, 'index'])->name('manage.users.index');
