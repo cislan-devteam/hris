@@ -8,7 +8,6 @@ use Illuminate\Support\Carbon;
 
 class ClockItController extends Controller
 {
-    
     public function clockIn(Request $request)
     {
         $clockIt = new ClockIt();
@@ -54,7 +53,6 @@ class ClockItController extends Controller
             // return redirect('login')->with('error', 'You must be logged in to view this page.');
         }
     }
-
 
     /**
      * Show the form for creating a new resource.
