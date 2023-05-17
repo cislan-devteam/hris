@@ -70,7 +70,7 @@
                 </select>
             </label>
 
-            <label class="block mt-4 text-sm">
+            {{-- <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Reason</span>
                 <textarea
                     class="block w-full mt-1 text-sm rounded-lg  form-textarea focus:border-purple-400 focus:outline-none
@@ -80,7 +80,12 @@
                     id = "leave_reason" name="leave_reason" type="text" required autofocus>
                     {{ $timeoff->leave_reason }}
                 </textarea>
-            </label>
+            </label> --}}
+            <label class="block mb-2 mt-4 text-sm  text-gray-700 dark:text-white">Reasons</label>
+            <textarea id = "leave_reason" rows="4" class="block p-2.5 w-full text-sm text-gray-700 bg-white rounded-lg border
+                    border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-900 dark:border-gray-600
+                    dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Write your reasons here..." name="leave_reason" type="text" value="('leave_reason')" required>{{ $timeoff->leave_reason }}</textarea>
 
             <div class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Attach File</span>
