@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class UserProfile extends Controller
 {
@@ -12,8 +14,13 @@ class UserProfile extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('tasks', compact('users'));
+        $user = DB::table('user_roles')
+        ->join('users', 'user_roles.user_id' , '=', 'users.id')
+        ->join('roles', 'user_roles.role_id', '=', 'roles.id')
+        ->select('users.name','users.email', 'roles.role_name', 'user_roles.user_id')
+        ->get();
+
+        return view('tasks', compact('user'));
     }
 
     /**
@@ -33,9 +40,14 @@ class UserProfile extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        $user->role_id = $request->role_id;
         $user->save();
-        return redirect('/add-user');
+
+        $userRole = new UserRole();
+        $userRole->user_id = $user->id;
+        $userRole->role_id = $request->role_id;
+        $userRole->save();
+
+        return redirect()->route('tasks');
     }
 
     /**
