@@ -6,4 +6,4 @@
 
 tasks:
   - init: bash .gitpod-init.sh
-    command: npm run dev
+    command: ./vendor/bin/sail artisan migrate:fresh --seed && npm run dev
