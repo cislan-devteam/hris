@@ -76,15 +76,15 @@ class TimeOffController extends Controller
     public function update(Request $request, $id)
     {
 
-        $timeoff = TimeOff::findOrFail($id);
+        $timeoff = TimeOff::find($id);
 
-        if($request->hasFile('file_attachment')){
-
-            $timeoff->employee_name = $request->employee_name;
+        $timeoff->employee_name = $request->employee_name;
             $timeoff->start_date = $request->start_date;
             $timeoff->end_date = $request->end_date;
             $timeoff->leave_type = $request->leave_type;
             $timeoff->leave_reason = $request->leave_reason;
+
+        if($request->hasFile('file_attachment')){
 
             // get filename with the extention
             $fileNameWithExt = $request->file('file_attachment')->getClientOriginalName();
@@ -103,7 +103,7 @@ class TimeOffController extends Controller
             $request->file('file_attachment')->move($destinationPath,$fileNameToStore);
 
         }
-
+        
         $timeoff->save();
         return redirect()->route('timeoff');
 

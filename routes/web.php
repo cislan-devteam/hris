@@ -26,7 +26,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
@@ -87,14 +87,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::group(['middleware' => ['web', 'XeroAuthenticated']], function(){
-    Route::match(['get', 'post'], 'xero', function () {
-        return Xero::contacts()->find('406e9eba-9939-48de-a300-57853bb1a6a4');
-    });
-});
-Route::get('xero/connect', function(){
-    return Xero::connect();
-});
+// Route::group(['middleware' => ['web', 'XeroAuthenticated']], function(){
+//     Route::match(['get', 'post'], 'xero', function () {
+//         return Xero::contacts()->find('406e9eba-9939-48de-a300-57853bb1a6a4');
+//     });
+// });
+// Route::get('xero/connect', function(){
+//     return Xero::connect();
+// });
 
 Route::get('/clockit', [ClockItController::class, 'index'])->name('clockit.index');
 Route::post('clockit/clockin', [ClockItController::class, 'clockIn'])->name('clockit.clockin');
