@@ -1,14 +1,17 @@
 <?php
 
 use Dcblogdev\Xero\Facades\Xero;
+use Dcblogdev\LaravelXero\Http\Controllers\XeroAuthController;
 use App\Http\Controllers\UserProfile;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\Client;
 use App\Http\Controllers\ClockItController;
+use App\Http\Controllers\XeroController;
 use App\Http\Controllers\Director\Director;
 use App\Http\Controllers\Employee\Employee;
 use App\Http\Controllers\HR_Admin\HR_Admin;
 use App\Http\Controllers\IT_Admin\IT_Admin;
+use App\Http\Controllers\TimeOffController;
 use App\Http\Controllers\SuperAdmin\SuperAdmin;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
@@ -45,6 +48,18 @@ Route::put('/tasks/{id}/edit', [UserProfile::class, 'update'])->name('tasks.upda
 
 Route::delete('/tasks/{id}', [UserProfile::class, 'destroy'])->name('tasks.destroy');
 
+// Time Off Controller
+Route::get('/timeoff', [TimeOffController::class, 'index'])->name('timeoff');
+Route::get('/create-time-off', [TimeOffController::class, 'create']);
+Route::post('/create-time-off', [TimeOffController::class, 'store'])->name('timeoff.store');
+
+Route::get('/view-timeoff/{id}', [TimeOffController::class, 'show'])->name('timeoff.shows');;
+
+Route::get('/timeoff/{id}/edit', [TimeOffController::class, 'edit'])->name('timeoff.edit');
+Route::put('/timeoff/{id}/edit', [TimeOffController::class, 'update'])->name('timeoff.update');
+
+Route::delete('/timeoff/{id}', [TimeOffController::class, 'destroy'])->name('timeoff.destroy');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:Super Admin', 'prefix' => 'superAdmin', 'as' => 'superAdmin.'], function () {
         Route::resource('dashboard', SuperAdmin::class);
@@ -73,16 +88,28 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::group(['middleware' => ['web', 'XeroAuthenticated']], function(){
-    Route::match(['get', 'post'], 'xero', function () {
-        return Xero::contacts()->find('406e9eba-9939-48de-a300-57853bb1a6a4');
-    });
-});
-Route::get('xero/connect', function(){
-    return Xero::connect();
-});
+// Route::group(['middleware' => ['web', 'XeroAuthenticated']], function(){
+//     Route::match(['get', 'post'], 'xero', function () {
+//         return Xero::contacts()->find('406e9eba-9939-48de-a300-57853bb1a6a4');
+//     });
+// });
+
+// Route::get('xero/connect', function(){
+//     return Xero::connect();
+// });
+
+// Xero
+
+// Route::group(['middleware' => ['web']], function () {
+//     Route::get('xero/auth', [XeroAuthController::class, 'index']);
+//     Route::get('xero/auth/callback', [XeroAuthController::class, 'callback']);
+//     Route::get('xero/auth/disconnect', [XeroAuthController::class, 'disconnect']);
+// });
+
+// Route::get('contacts', [XeroContactsController::class, 'index'])->name('contacts.index');
 
 Route::get('/clockit', [ClockItController::class, 'index'])->name('clockit.index');
 Route::post('clockit/clockin', [ClockItController::class, 'clockIn'])->name('clockit.clockin');
+Route::get('/clockout', [ClockItController::class, 'timeOut'])->name('clockit.timeout');
 Route::post('clockit/clockout', [ClockItController::class, 'clockOut'])->name('clockit.clockout');
 Route::resource('clockit', ClockItController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
