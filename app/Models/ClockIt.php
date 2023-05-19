@@ -9,7 +9,10 @@ class ClockIt extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['role_id'];
+    protected $fillable = [
+        'role_id'
+    ];
+    
     protected $casts = [
         'clock_in' => 'datetime',
     ];
