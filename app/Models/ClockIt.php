@@ -12,4 +12,9 @@ class ClockIt extends Model
     protected $fillable = [
         'role_id'
     ];
+    
+    protected $casts = [
+        'clock_in' => 'datetime',
+    ];
+
 }

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('clock_its', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamp('clock_in');
-            $table->timestamp('clock_out')->nullable();
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->date('date');
+            $table->time('clock_in');
+            $table->time('clock_out')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
         });
