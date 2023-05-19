@@ -61,15 +61,12 @@
 
             </label>
 
-            <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Reason</span>
-                <textarea
-                    class="block w-full mt-1 text-sm text-left rounded-lg form-textarea
-                    focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3"
-                    id = "leave_reason" name="leave_reason" type="text" readonly>
-                    {{ $leave->leave_reason }}
-                </textarea>
-            </label>
+
+            <label class="block mb-2 mt-4 text-sm  text-gray-700 dark:text-white">Reasons</label>
+            <textarea id = "leave_reason" rows="4" class="block p-2.5 w-full text-sm text-gray-700 bg-white rounded-lg border
+                    border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+                    dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      name="leave_reason" type="text" readonly> {{ $leave->leave_reason }}</textarea>
 
             {{-- attach file in form --}}
             <div class="block mt-4 text-sm">
@@ -90,8 +87,13 @@
 
                 <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
                 <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                  <img src="{{ '/attachfile/' .$leave->file_attachment }}" alt="file_attachment"
-                  class="h-full w-full object-cover object-center">
+                    @if($leave->file_attachment)
+                    {{-- <img src="{{ '/attachfile/' .$leave->file_attachment }}" alt="file_attachment" --}}
+                    <img src="{{ URL('attachfile/', [$leave->file_attachment]) }}" alt="{{ $leave->file_attachment }}"
+                    class="h-full w-full object-cover object-center">
+                    @else
+                    <p>No image found</p>
+                    @endif
                 </div>
             </div>
 

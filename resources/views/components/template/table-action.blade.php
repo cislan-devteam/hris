@@ -22,7 +22,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            @foreach ($users as $user)
+                            @foreach ($user as $user)
                                 <tr class="text-gray-700 dark:text-gray-400">
                                     <td class="px-4 py-3">
                                         <div class="flex items-center text-sm">
@@ -47,31 +47,19 @@
                                     </td>
                                     <td class="px-4 py-3 text-sm">
                                         <span>
-                                            @if ($user->role_id == 1)
-                                                Super Admin
-                                            @elseif ($user->role_id == 2)
-                                                HR Admin
-                                            @elseif ($user->role_id == 3)
-                                                IT Admin
-                                            @elseif ($user->role_id == 4)
-                                                Director
-                                            @elseif ($user->role_id == 5)
-                                                Client
-                                            @else
-                                                Employee
-                                            @endif
+                                           {{ $user->role_name }}
                                         </span>
                                     </td>
                                     <td class="px-4 py-3">
                                         <div class="flex items-center space-x-4 text-sm">
-                                            <a href={{ route('tasks.show', $user->id) }}>
+                                            <a href={{ route('tasks.show', $user->user_id) }}>
                                                 <button
                                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                     aria-label="Edit">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </button>
                                             </a>
-                                            <a href={{ route('tasks.edit', $user->id) }}>
+                                            <a href={{ route('tasks.edit', $user->user_id) }}>
                                                 <button
                                                     class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                     aria-label="Edit">
@@ -79,7 +67,7 @@
                                                 </button>
                                             </a>
 
-                                            <form method="POST" action={{ route('tasks.destroy', $user->id) }}>
+                                            <form method="POST" action={{ route('tasks.destroy', $user->user_id) }}>
                                                 @csrf
                                                 @method('DELETE')
                                                 <button
