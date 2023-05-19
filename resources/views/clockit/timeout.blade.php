@@ -39,7 +39,7 @@
                                     @foreach ($records as $record)
                                         <tr class="text-gray-700 dark:text-gray-400">
                                             <td class="px-4 py-3">{{ Carbon\Carbon::parse($record['date'])->toFormattedDateString() }}</td>
-                                            <td class="px-4 py-3">{{ $record->clock_in }}</td>
+                                            <td class="px-4 py-3">{{ $record->clock_in->format('H:i:s') }}</td>
                                             <td class="px-4 py-3">{{ $record->clock_out }}</td>
                                         </tr>
                                     @endforeach

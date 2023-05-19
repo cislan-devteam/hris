@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 class ClockItController extends Controller
 {
-    // Saves ClockIn Data
+    
     public function clockIn(Request $request)
     {
         $clockIt = new ClockIt();
@@ -62,21 +62,6 @@ class ClockItController extends Controller
         }
     }
 
-    // Display Clockout Data
-    public function timeOut()
-    {
-        if (auth()->check()) {
-            $user = auth()->user();
-            $records = ClockIt::where('user_id', $user->id)
-                              ->orderBy('clock_in', 'desc')
-                              ->get();
-
-            return view('clockit.timeout', compact('records'));
-
-            // Redirect to the login page if no user is authenticated
-            // return redirect('login')->with('error', 'You must be logged in to view this page.');
-        }
-    }
 
     /**
      * Show the form for creating a new resource.
