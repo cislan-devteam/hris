@@ -11,7 +11,7 @@
                 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
                 dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                 id = "employee_name" placeholder="Name" name="employee_name" type="text"
-                value="{{ $leave->employee_name }}" readonly />
+                value="{{ $director->employee_name }}" readonly />
             </label>
 
             {{-- Date --}}
@@ -28,7 +28,7 @@
               border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
                 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{{ $leave->start_date }}" disabled>
+                value="{{ $director->start_date }}" disabled>
                 </div>
 
                 <span class="mx-4 text-gray-500">to</span>
@@ -45,7 +45,7 @@
                 <input name="end_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class="bg-white border
                 border-gray-600 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-purple-400 block w-full pl-10 p-2.5
                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="{{ $leave->end_date }}" disabled>
+                value="{{ $director->end_date }}" disabled>
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
                 </span>
                 <input class="block w-full mt-2 text-sm rounded-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                 value="{{ $leave->leave_type }}" readonly />
+                 value="{{ $director->leave_type }}" readonly />
 
                 </>
 
@@ -66,7 +66,7 @@
             <textarea id = "leave_reason" rows="4" class="block p-2.5 w-full text-sm text-gray-700 bg-white rounded-lg border
                     border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
                     dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      name="leave_reason" type="text" readonly> {{ $leave->leave_reason }}</textarea>
+                      name="leave_reason" type="text" readonly> {{ $director->leave_reason }}</textarea>
 
             {{-- attach file in form --}}
             <div class="block mt-4 text-sm">
@@ -87,8 +87,8 @@
 
                 <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
                 <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                    @if($leave->file_attachment)
-                    <img src="{{ '/attachfile/' .$leave->file_attachment }}" alt="file_attachment"
+                    @if($director->file_attachment)
+                    <img src="{{ '/attachfile/' .$director->file_attachment }}" alt="file_attachment"
                     {{-- <img src="{{ URL('attachfile/', [$leave->file_attachment]) }}" alt="{{ $leave->file_attachment }}" --}}
                     class="h-full w-full object-cover object-center">
                     @else
@@ -107,14 +107,20 @@
 
 
             {{-- Disabled in show blade --}}
-            <div class="mt-1">
-                <a href="/timeoff">
-                <button type="submit"
-                    class="block w-full mt-3 px-3 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150
-                    bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                    Back
-                </button>
-                </a>
-            </div>
+            <form method="POST" action={{ route('directors.update', $director->id)}} enctype="multipart/form-data">
+                @csrf @method('PUT')
+                <div class="mt-4">
+                    <button id = "status"  name="status" type="submit" value="Approve"
+                        class="block w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600
+                        border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        Approve
+                    </button>
+                    <button id = "status"  name="status" type="submit" value="Denied"
+                        class="block w-full mt-2 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600
+                        border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        Deny
+                    </button>
+                </div>
+            </form>
         </div>
 </div>
