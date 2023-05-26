@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('time_offs', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->references('id')->on('users');
+            //$table->foreign('name')->references('id')->on('users');
             $table->string('employee_name');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('leave_type');
             $table->string('leave_reason');
             $table->string('file_attachment')->nullable();
+            $table->string('status')->default('Pending')->nullable();
             $table->timestamps();
         });
     }

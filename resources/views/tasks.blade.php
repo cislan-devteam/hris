@@ -15,7 +15,7 @@
 
       <div class="flex flex-col flex-1 w-full">
         <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
-            @include()
+            @include('layouts.master-components.master-dashboard-content')
         </header>
         <main class="h-full overflow-y-auto">
           <div class="container px-6 mx-auto grid">

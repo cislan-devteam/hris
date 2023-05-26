@@ -103,7 +103,7 @@ class TimeOffController extends Controller
             $request->file('file_attachment')->move($destinationPath,$fileNameToStore);
 
         }
-        
+
         $timeoff->save();
         return redirect()->route('timeoff');
 
@@ -117,11 +117,17 @@ class TimeOffController extends Controller
         $timeOffs = TimeOff::findOrFail($id);
         $timeOffs->delete();
         return redirect()->route('timeoff');
-
-
-
-
-
-
+    }
+    public function statusview($id)
+    {
+        $director = TimeOff::findOrFail($id);
+        return view('directors-timeoff', compact('director'));
+    }
+    public function statusStore(Request $request)
+    {
+        $director = TimeOff::findOrFail($request->id);
+        $director-> status = $request->status;
+        $director->save();
+        return redirect()->route('timeoff');
     }
 }

@@ -16,7 +16,7 @@
              <th class="px-4 py-3">Start Date</th>
              <th class="px-4 py-3">End Date</th>
              <th class="px-4 py-3">Status</th>
-             <th class="px-4 py-3">Actions</th>
+             <th class="px-11 py-3">Actions</th>
            </tr>
          </thead>
          <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -57,21 +57,34 @@
                 {{ $timeoff->end_date }}
               </td>
              <td class="px-4 py-3 text-xs">
-                <span
-                  class="px-2 py-1 font-semibold leading-tight text-black bg-yellow-200 rounded-full dark:bg-yellow-200 dark:text-black">
-                    Approved
+                @if ($timeoff->status=="Approve")
+                <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full
+                dark:bg-green-700 dark:text-green-100">
+                Approved
                 </span>
+                @elseif ($timeoff->status=="Denied")
+                <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full
+                dark:text-red-100 dark:bg-red-700">
+                Denied
+               </span>
+               @else
+               <span class="px-2 py-1 font-semibold leading-tight text-orange-100 bg-orange-400 rounded-full
+                dark:text-orange-100 dark:bg-orange-500">
+                Pending
+                </span>
+               @endif
+
               </td>
               <td class="px-4 py-3">
-                <div class="flex items-center space-x-4 text-sm">
+                <div class="flex items-center space-x-2 text-sm">
 
-                        <a href={{ route('timeoff.shows', $timeoff->id) }}>
+                    <a href={{ route('timeoff.shows', $timeoff->id) }}>
                         <button
                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                            aria-label="Edit">
+                            aria-label="Show">
                             <i class="fa-solid fa-eye"></i>
                         </button>
-                    </a>
+                   </a>
                     <a href={{ route('timeoff.edit', $timeoff->id) }}>
                         <button
                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
@@ -92,6 +105,13 @@
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </form>
+
+                    <a href={{ route('directors.edit', $timeoff->id) }}>
+                        <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                            aria-label="Directors View">
+                            <i class="fa-solid fa-file-signature"></i>
+                        </button>
+                    </a>
                 </div>
             </td>
            </tr>
