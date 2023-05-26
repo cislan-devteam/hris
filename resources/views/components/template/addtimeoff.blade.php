@@ -1,12 +1,12 @@
-<div class="container mt-2 px-8 pt-3 pb-3 bg-white rounded-lg md:min-w-0  mx-auto max-w-2xl ">
+
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-        Time Off Forms
+        Time Off Form
     </h2>
 
     <!-- General elements -->
     <form method="POST" action={{ url('/create-time-off') }} enctype="multipart/form-data">
         @csrf
-        <div class="px-5 max-w-screen-sm mb-8 p-3 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class="px-5  mb-8 p-3 w-full rounded-lg shadow-md dark:bg-gray-800">
             <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Name</span>
                 <input class="block w-full mt-2 text-sm rounded-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
@@ -25,7 +25,7 @@
                     </path>
                 </svg>
                 </div>
-                <input name="start_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class="bg-white border border-gray-600
+                <input name="start_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class=" border border-gray-600
                 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700
                 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Select date start">
@@ -41,14 +41,14 @@
                     </path>
                     </svg>
                 </div>
-                <input name="end_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class="bg-white border
+                <input name="end_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class=" border
                 border-gray-600 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-purple-400 block w-full pl-10 p-2.5
                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
                 </div>
             </div>
 
             <label class="block mt-4 text-sm">
-                <span class="text-gray-700" >
+                <span class="text-gray-700  dark:text-gray-400" >
                     Type of Leave
                 </span>
                 <select
@@ -78,7 +78,7 @@
             </label> --}}
 
             <label class="block mb-2 mt-4 text-sm  text-gray-700 dark:text-white">Reasons</label>
-            <textarea id = "leave_reason" rows="4" class="block p-2.5 w-full text-sm text-gray-700 bg-white rounded-lg border
+            <textarea id = "leave_reason" rows="4" class="block p-2.5 w-full text-sm text-gray-700  rounded-lg border
                     border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-900 dark:border-gray-600
                     dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Write your reasons here..." name="leave_reason" type="text" value="('leave_reason')" required></textarea>
@@ -101,7 +101,7 @@
                     <input type="checkbox" required
                         class="text-purple-600 form-checkbox rounded-sm focus:border-purple-400 focus:outline-none
                         focus:shadow-outline-purple dark:focus:shadow-outline-gray" />
-                    <span class="ml-2 text-gray-700">
+                    <span class="ml-2 text-gray-700  dark:text-gray-400">
                         I hereby declare that the information provided is
                         <span class="underline italic">true and correct.</span>
                     </span>
@@ -117,4 +117,3 @@
             </div>
         </div>
     </form>
-</div>
