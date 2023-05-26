@@ -60,6 +60,10 @@ Route::get('/timeoff/{id}/edit', [TimeOffController::class, 'edit'])->name('time
 Route::put('/timeoff/{id}/edit', [TimeOffController::class, 'update'])->name('timeoff.update');
 
 Route::delete('/timeoff/{id}', [TimeOffController::class, 'destroy'])->name('timeoff.destroy');
+//directorsview
+Route::get('/timeoff/{id}/directors_edit', [TimeOffController::class, 'statusview'])->name('directors.edit');
+Route::put('/timeoff/{id}/directors_edit', [TimeOffController::class, 'statusStore'])->name('directors.update');
+
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:Super Admin', 'prefix' => 'superAdmin', 'as' => 'superAdmin.'], function () {

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TimeOff extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'employee_name',
         'start_date',
@@ -16,5 +16,6 @@ class TimeOff extends Model
         'leave_type',
         'leave_reason',
         'file_attachment',
+        'status'
     ];
 }
