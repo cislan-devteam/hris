@@ -1,15 +1,13 @@
-<div class="container mt-2 px-8 pt-3 pb-3 bg-white rounded-xl md:min-w-0  mx-auto max-w-2xl ">
-    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-        Time Off Forms
-    </h2>
+<h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+    Time Off Form
+</h2>
 
     <!-- General elements -->
-        <div class="px-5 max-w-screen-sm mb-8 p-3 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class="px-5  mb-8 p-3 w-full rounded-lg shadow-md dark:bg-gray-800">
             <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Name</span>
-                <input class="block w-full mt-2 text-sm rounded-lg text-gray-700 dark:border-gray-600
-                dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple
-                dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 id = "employee_name" placeholder="Name" name="employee_name" type="text"
                 value="{{ $leave->employee_name }}" readonly />
             </label>
@@ -20,12 +18,13 @@
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg aria-hidden="true" class="w-5 h-5 text-gray-700 dark:text-gray-400" fill="currentColor"
                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd"
-                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1
+                     1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
                     clip-rule="evenodd"></path></svg>
                 </div>
 
                 <input name="start_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class="bg-white border
-              border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
+              border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
                 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value="{{ $leave->start_date }}" disabled>
@@ -35,26 +34,28 @@
 
                 <div class="relative">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg aria-hidden="true" class="w-5 h-5 text-gray-700 dark:text-gray-400" fill="currentColor"
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-700 dark:text-gray-400"
+                    fill="currentColor"
                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd"
-                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1
+                     1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
                     clip-rule="evenodd"></path>
                     </svg>
                 </div>
 
                 <input name="end_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class="bg-white border
-                border-gray-600 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-purple-400 block w-full pl-10 p-2.5
+                border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-purple-400 block w-full pl-10 p-2.5
                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value="{{ $leave->end_date }}" disabled>
                 </div>
             </div>
 
             <label class="block mt-4 text-sm">
-                <span class="text-gray-700" >
+                <span class="text-gray-700 dark:text-gray-400" >
                     Type of Leave
                 </span>
-                <input class="block w-full mt-2 text-sm rounded-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                  value="{{ $leave->leave_type }}" readonly />
 
                 </>
@@ -63,9 +64,8 @@
 
 
             <label class="block mb-2 mt-4 text-sm  text-gray-700 dark:text-white">Reasons</label>
-            <textarea id = "leave_reason" rows="4" class="block p-2.5 w-full text-sm text-gray-700 bg-white rounded-lg border
-                    border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
-                    dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            <textarea id = "leave_reason" rows="2" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+            focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                       name="leave_reason" type="text" readonly> {{ $leave->leave_reason }}</textarea>
 
             {{-- attach file in form --}}
@@ -90,11 +90,13 @@
                     @if($leave->file_attachment)
                     <img src="{{ '/attachfile/' .$leave->file_attachment }}" alt="file_attachment"
                     {{-- <img src="{{ URL('attachfile/', [$leave->file_attachment]) }}" alt="{{ $leave->file_attachment }}" --}}
-                    class="h-full w-full object-cover object-center">
+                    class="max-h-md max-w-md object-cover object-center">
                     @else
                     {{-- <p>No image found</p> --}}
                         <div class="flex items-center justify-center w-full">
-                            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-line rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-fit border border-gray-300 border-line rounded-lg
+                            cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700
+                            hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                 <div class="flex flex-col items-center justify-center pt-10 pb-6">
                                     <i class="fa-solid fa-image fa-2xl" style="color: #7e3af2;"></i>
                                     <p class="mb-2 mt-5 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">No Image Found </span></p>

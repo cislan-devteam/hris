@@ -1,5 +1,4 @@
-
-    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+ <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
         Time Off Form
     </h2>
 
@@ -9,8 +8,8 @@
         <div class="px-5  mb-8 p-3 w-full rounded-lg shadow-md dark:bg-gray-800">
             <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Name</span>
-                <input class="block w-full mt-2 text-sm rounded-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 id = "employee_name" placeholder="Name" name="employee_name" type="text":value="old('employee_name')" required autofocus/>
             </label>
 
@@ -25,7 +24,7 @@
                     </path>
                 </svg>
                 </div>
-                <input name="start_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class=" border border-gray-600
+                <input name="start_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class=" border border-gray-300
                 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700
                 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Select date start">
@@ -42,18 +41,19 @@
                     </svg>
                 </div>
                 <input name="end_date" type="text" datepicker datepicker-format="yyyy-mm-dd" class=" border
-                border-gray-600 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-purple-400 block w-full pl-10 p-2.5
-                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
+                border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-purple-400 block w-full pl-10 p-2.5
+                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Select date end">
                 </div>
             </div>
 
             <label class="block mt-4 text-sm">
-                <span class="text-gray-700  dark:text-gray-400" >
+                <span class="text-gray-700 dark:text-gray-400" >
                     Type of Leave
                 </span>
                 <select
-                    class="block w-full mt-1 text-sm rounded-lg  form-select focus:border-purple-400 focus:outline-none
-                    focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:ring-1
+                focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                     id = "leave_type"  name="leave_type" type="text":value="old('leave_type')" required autofocus>
                     <option></option>
                     <option>Sick leave</option>
@@ -78,17 +78,20 @@
             </label> --}}
 
             <label class="block mb-2 mt-4 text-sm  text-gray-700 dark:text-white">Reasons</label>
-            <textarea id = "leave_reason" rows="4" class="block p-2.5 w-full text-sm text-gray-700  rounded-lg border
-                    border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-900 dark:border-gray-600
-                    dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            <textarea id = "leave_reason" rows="4" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+            focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                     placeholder="Write your reasons here..." name="leave_reason" type="text" value="('leave_reason')" required></textarea>
 
             <div class="block mt-4 text-sm">
             <span class="text-gray-700 dark:text-gray-400">Attach File</span>
-            <div class="flex items-center  justify-center w-full mt-1">
-                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-400  rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            <div class="flex items-center justify-center w-full mt-1">
+                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border border-gray-300  rounded-lg cursor-pointer
+                bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                     </div>
@@ -100,7 +103,7 @@
                 <label class="flex items-center dark:text-gray-400">
                     <input type="checkbox" required
                         class="text-purple-600 form-checkbox rounded-sm focus:border-purple-400 focus:outline-none
-                        focus:shadow-outline-purple dark:focus:shadow-outline-gray" />
+                        focus:shadow-outline-purple dark:focus:shadow-outline-gray " />
                     <span class="ml-2 text-gray-700  dark:text-gray-400">
                         I hereby declare that the information provided is
                         <span class="underline italic">true and correct.</span>

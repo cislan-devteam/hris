@@ -69,7 +69,7 @@
         :class="{ 'overflow-hidden': isSideMenuOpen }">
 
         @include('layouts.master-components.master-sidenav')
-        
+
         <!-- Page Content -->
         <div class="flex flex-col flex-1 w-full">
             <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    
+
 </body>
 
 </html>
