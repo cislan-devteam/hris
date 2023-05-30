@@ -19,6 +19,15 @@ class TimeOffController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'employee_name'=> 'required',
+            'start_date'=> 'required|date',
+            'end_date'=> 'required|date|after:start_date',
+            'leave_type'=> 'required',
+            'leave_reason' => 'required|max:255',
+            'file_attachment'=> 'size:4000|mimes:jpeg,png,jpg,gif'
+        ]);
+
         $timeoffs =new TimeOff();
         $timeoffs->employee_name = $request->employee_name;
         $timeoffs->start_date = $request->start_date;
@@ -48,7 +57,7 @@ class TimeOffController extends Controller
         }
 
         $timeoffs->save();
-        return redirect()->route('timeoff');
+        return redirect()->route('timeoff')->with('success', 'Time-off added successfully');
 
 
     }
@@ -78,7 +87,16 @@ class TimeOffController extends Controller
 
         $timeoff = TimeOff::find($id);
 
-        $timeoff->employee_name = $request->employee_name;
+        $request->validate([
+            'employee_name'=> 'required',
+            'start_date'=> 'required|date',
+            'end_date'=> 'required|date|after:start_date',
+            'leave_type'=> 'required',
+            'leave_reason' => 'required|max:255',
+            'file_attachment'=> 'size:4000|mimes:jpeg,png,jpg,gif'
+        ]);
+
+            $timeoff->employee_name = $request->employee_name;
             $timeoff->start_date = $request->start_date;
             $timeoff->end_date = $request->end_date;
             $timeoff->leave_type = $request->leave_type;
@@ -105,7 +123,7 @@ class TimeOffController extends Controller
         }
 
         $timeoff->save();
-        return redirect()->route('timeoff');
+        return redirect()->route('timeoff')->with('success', 'Time-off edited successfully');
 
     }
 
@@ -128,6 +146,6 @@ class TimeOffController extends Controller
         $director = TimeOff::findOrFail($request->id);
         $director-> status = $request->status;
         $director->save();
-        return redirect()->route('timeoff');
+        return redirect()->route('timeoff')->with('success', 'Approval of time-off added successfully');
     }
 }
