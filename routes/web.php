@@ -105,4 +105,4 @@ Route::get('/clockout', [ClockItController::class, 'timeOut'])->name('clockit.ti
 Route::post('clockit/clockout', [ClockItController::class, 'clockOut'])->name('clockit.clockout');
 Route::resource('clockit', ClockItController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 
-Route::get('/add-user', [ManageUserController::class, 'index'])->name('manage.users.index');
+Route::get('/template/add-user', [ManageUserController::class, 'index'])->name('manage.users.index');
