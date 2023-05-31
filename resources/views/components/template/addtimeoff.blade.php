@@ -19,7 +19,24 @@
         Add Time off
     </a>
     </div>
-
+        {{-- Error Message --}}
+        @if ($errors->any())
+        <div class="submission-fail-message items-center flex justify-between p-4 mb-8 text-sm font-semibold
+                    text-purple-100 bg-red-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red">
+            <div>
+                <i class="fa-sharp fa-solid fa-circle-exclamation fa-lg mr-2" style="color: #ffffff;"></i>
+                    <span>Something went wrong. Please check and try again. </span>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li class="p-1 text-sm font-semibold text-purple-100
+                        bg-red-600 rounded-lg  focus:outline-none focus:shadow-outline-red list-none"
+                        onclick="this.parentElement.style.display = 'none'";>
+                        {{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        @endif
 
     <!-- General elements -->
     <form method="POST" action={{ url('/create-time-off') }} enctype="multipart/form-data">
@@ -27,8 +44,8 @@
         <div class="px-5  mb-8 p-3 w-full rounded-lg shadow-md dark:bg-gray-800">
             <label class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Name</span>
-                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 id = "employee_name" placeholder="Name" name="employee_name" type="text":value="old('employee_name')" required autofocus/>
             </label>
 
@@ -96,7 +113,7 @@
                 </textarea>
             </label> --}}
 
-            <label class="block mb-2 mt-4 text-sm  text-gray-700 dark:text-white">Reasons</label>
+            <label class="block mb-2 mt-4 text-sm  text-gray-700 dark:text-gray-400">Reasons</label>
             <textarea id = "leave_reason" rows="4" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
             focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                     placeholder="Write your reasons here..." name="leave_reason" type="text" value="('leave_reason')" required></textarea>

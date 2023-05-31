@@ -102,7 +102,7 @@
                 </label>
                 </div> --}}
 
-                <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+                <div>
                 <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                     @if($director->file_attachment)
                     <img src="{{ '/attachfile/' .$director->file_attachment }}" alt="file_attachment"

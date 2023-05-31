@@ -81,7 +81,7 @@
             </label>
 
 
-            <label class="block mb-2 mt-4 text-sm  text-gray-700 dark:text-white">Reasons</label>
+            <label class="block mb-2 mt-4 text-sm  text-gray-700 dark:text-gray-400 ">Reasons</label>
             <textarea id = "leave_reason" rows="2" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
             focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                       name="leave_reason" type="text" disabled> {{ $leave->leave_reason }}</textarea>
@@ -103,7 +103,7 @@
                 </label>
                 </div> --}}
 
-                <div class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+                <div>
                 <div class="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                     @if($leave->file_attachment)
                     <img src="{{ '/attachfile/' .$leave->file_attachment }}" alt="file_attachment"
@@ -111,16 +111,16 @@
                     class="max-h-md max-w-md object-cover object-center">
                     @else
                     {{-- <p>No image found</p> --}}
-                        <div class="flex items-center justify-center w-full">
-                            <label class="cursor-default flex flex-col items-center justify-center w-full h-full border border-gray-300 border-line
-                            rounded-lg bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600
-                            dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                <div class="flex flex-col items-center justify-center pt-10 pb-6">
-                                    <i class="fa-solid fa-image fa-2xl" style="color: #a04ded;"></i>
-                                    <p class="mb-2 mt-5 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">No Image Found </span></p>
-                                </div>
-                            </label>
-                        </div>
+                    <div class="flex items-center justify-center w-full">
+                        <label class="cursor-default flex flex-col items-center justify-center w-full h-64 border border-gray-300 border-line
+                        rounded-lg bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600
+                        dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <div class="flex flex-col items-center justify-center pt-10 pb-6">
+                                <i class="fa-solid fa-image fa-2xl" style="color: #a04ded;"></i>
+                                <p class="mb-2 mt-5 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">No Image Found </span></p>
+                            </div>
+                        </label>
+                    </div>
                     @endif
                 </div>
             </div>
