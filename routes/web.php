@@ -101,7 +101,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/clockit', [ClockItController::class, 'index'])->name('clockit.index');
 Route::post('clockit/clockin', [ClockItController::class, 'clockIn'])->name('clockit.clockin');
-Route::get('/clockout', [ClockItController::class, 'timeOut'])->name('clockit.timeout');
 Route::post('clockit/clockout', [ClockItController::class, 'clockOut'])->name('clockit.clockout');
 Route::resource('clockit', ClockItController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 
