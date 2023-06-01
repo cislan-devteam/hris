@@ -24,6 +24,9 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css"  rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.3.x/dist/index.js"></script>
+
+    
 
     <link rel="stylesheet" href="../../css/tailwind.output.css" />
     <script src="../../js/init-alpine.js"></script>
@@ -71,7 +74,7 @@
         @include('layouts.master-components.master-sidenav')
 
         <!-- Page Content -->
-        <div class="flex flex-col flex-1 w-full">
+        <div class="flex flex-col flex-1 w-full h-screen">
             <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
                 @include('layouts.master-components.master-header-file')
             </header>

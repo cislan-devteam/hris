@@ -17,24 +17,30 @@ return new class extends Migration
             //file
             $table->string('profile_picture');
 
+            //Need to change to connect with user address
             $table->string('employee_name');
+            $table->string('email_address');
+
+            //
+            $table->varchar('contact_number');
             $table->string('address2');
             $table->string('address1');
-            $table->string('contact_number');
             $table->date('birth_date');
             $table->string('birth_place');
             $table->string('civil_status');
             $table->string('nationality');
             $table->string('position');
+
             $table->string('tin');
             $table->string('sss_num');
             $table->string('pagibig_num');
             $table->string('philhealth_num');
+
             $table->string('nbi_clearance');
             $table->string('gov_id1');
             $table->string('gov_id2');
             $table->string('emergency_name');
-            $table->integer('emergency_contactnum');
+            $table->varchar('emergency_contactnum');
             $table->string('emergency_relationship');
 
             $table->string('file_cv')->nullable();
@@ -46,7 +52,6 @@ return new class extends Migration
             $table->string('file_laptop_agreement')->nullable();
             $table->string('file_memo')->nullable();
             $table->string('notice_to_explain')->nullable();
-
             $table->timestamps();
         });
     }

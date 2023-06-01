@@ -21,6 +21,7 @@
     <i class="fa-solid fa-circle-xmark fa-lg px-1" style="color: #ffffff;"  onclick="this.parentElement.style.display = 'none';"></i>
 </div> --}}
 
+
 <form method="POST" action={{ url('/template/add-user') }} class="mb-8" id="add-user-form" enctype="multipart/form-data">
     @csrf
         <!-- User Information -->
@@ -28,7 +29,6 @@
        Personal Information
     </h4>
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-
         {{-- Profile Picture Upload --}}
         <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400">Upload Profile Picture</span>
@@ -50,6 +50,33 @@
                 dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
                 dark:text-gray-300 form-input" placeholder="Full name " id="userFName" name="employee_name" type="text"
                 :value="('employee_name')" required/>
+            </div>
+        </div>
+        <!-- Mobile Number and Birth Date -->
+        <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <!-- Email Address -->
+            <label class="block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Email Address</span>
+                    <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input" placeholder="Email Address"
+                    name="email_address" type="text" :value="('email_address')" required/>
+            </label>
+            <div class="z-0 w-full group block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
+                <div class="flex mt-1">
+                <span class="inline-flex items-center px-3 py-0 text-sm  text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600
+                dark:text-gray-400 dark:border-gray-600">+63</span>
+                <input onkeydown="return
+                        /[0-9-]/.test(event.key) || event.key ===
+                        'Backspace' || event.key === 'Delete'"
+                    oninput="formatPhoneNumber(this)"
+                    class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                    id="phoneNumber" placeholder="000-000-0000" maxlength="12" name="contact_number" type="text" :value="('contact_number')" required/>
+                </div>
+                <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
+                    Phone number is invalid.
+                </span>
             </div>
         </div>
 
@@ -76,25 +103,8 @@
             </span>
         </label> --}}
 
-        <!-- Mobile Number and Birth Date -->
+        {{-- birthdate --}}
         <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
-                <div class="flex mt-1">
-                    <span class="inline-flex items-center px-3 py-0 text-sm  text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600
-                     dark:text-gray-400 dark:border-gray-600">+63</span>
-                    <input onkeydown="return
-                            /[0-9-]/.test(event.key) || event.key ===
-                            'Backspace' || event.key === 'Delete'"
-                           oninput="formatPhoneNumber(this)"
-                           class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                           focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                           id="phoneNumber" placeholder="000-000-0000" maxlength="12" name="contact_number" type="text" :value="('contact_number')" required/>
-                </div>
-                <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
-                    Phone number is invalid.
-                </span>
-            </div>
             <div class="z-0 w-full group block text-sm text">
                 <span class="text-gray-700 dark:text-gray-400">Birth Date</span>
                     <div class=" w-full relative ">
@@ -111,17 +121,14 @@
                         placeholder="Select birth date" name="birth_date" type="text" :value="('birth_date')" required>
                     </div>
             </div>
-
-
-
+                <!-- Birth Place -->
+                <label class="block text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">Birth Place</span>
+                        <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input" placeholder="Birth Place"
+                        name="birth_place" type="text" :value="('birth_place')" required/>
+                </label>
         </div>
-        <!-- Birth Place -->
-        <label class="block mt-4 text-sm">
-            <span class="text-gray-700 dark:text-gray-400">Birth Place</span>
-            <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input" placeholder="Birth Place"
-            name="birth_place" type="text" :value="('birth_place')" required/>
-        </label>
 
         <!-- Civil Status and Nationality -->
         <div class="grid md:grid-cols-2 gap-4 mt-4">
