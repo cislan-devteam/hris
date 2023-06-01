@@ -15,6 +15,7 @@ class ClockIt extends Model
     
     protected $casts = [
         'clock_in' => 'datetime',
+        'clock_out' => 'datetime',
     ];
 
 }

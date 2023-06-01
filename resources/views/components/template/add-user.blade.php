@@ -25,18 +25,20 @@
 <form method="POST" action={{ url('/template/add-user') }} class="mb-8" id="add-user-form" enctype="multipart/form-data">
     @csrf
         <!-- User Information -->
-    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-       Personal Information
+    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300       Personal Information
     </h4>
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+
         {{-- Profile Picture Upload --}}
         <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400">Upload Profile Picture</span>
             <input
+
                 class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 id="pfp-file-upload" name="profile_picture" type="file" :value="('profile_picture')"
                 />
+
             <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                 Please select a file.
             </span>
@@ -45,11 +47,13 @@
         <!-- User Name -->
         <div class="block mt-4">
             <div class="z-0 w-full group block text-sm">
+
                 <span class="text-gray-700 dark:text-gray-400">Full Name</span>
                 <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600
                 dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
                 dark:text-gray-300 form-input" placeholder="Full name " id="userFName" name="employee_name" type="text"
                 :value="('employee_name')" required/>
+
             </div>
         </div>
         <!-- Mobile Number and Birth Date -->
@@ -62,6 +66,7 @@
                     name="email_address" type="text" :value="('email_address')" required/>
             </label>
             <div class="z-0 w-full group block text-sm">
+
                 <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
                 <div class="flex mt-1">
                 <span class="inline-flex items-center px-3 py-0 text-sm  text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600
@@ -77,6 +82,7 @@
                 <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
                     Phone number is invalid.
                 </span>
+
             </div>
         </div>
 
@@ -91,6 +97,7 @@
         <!-- Permanent Address -->
         <label class="block mt-4 text-sm">
             <span class="text-gray-700 dark:text-gray-400">Permanent Address</span>
+
             <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 placeholder="Permanent Address" id="addressPermanent" name="address2" type="text" :value="('address2')" required/>
@@ -99,12 +106,14 @@
         {{-- <label class="flex items-center dark:text-gray-400 text-sm mt-4">
             <input class="text-purple-600 form-checkbox focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600"
                 id="addressCheck"name="" type="checkbox" value="address1"/>
+
             <span class="ml-2"> Same as Present Address
             </span>
         </label> --}}
 
         {{-- birthdate --}}
         <div class="grid md:grid-cols-2 gap-4 mt-4">
+
             <div class="z-0 w-full group block text-sm text">
                 <span class="text-gray-700 dark:text-gray-400">Birth Date</span>
                     <div class=" w-full relative ">
@@ -119,7 +128,7 @@
                         dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
                         dark:text-gray-300 form-input"
                         placeholder="Select birth date" name="birth_date" type="text" :value="('birth_date')" required>
-                    </div>
+
             </div>
                 <!-- Birth Place -->
                 <label class="block text-sm">
@@ -129,7 +138,6 @@
                         name="birth_place" type="text" :value="('birth_place')" required/>
                 </label>
         </div>
-
         <!-- Civil Status and Nationality -->
         <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="z-0 w-full group block text-sm">
@@ -137,6 +145,7 @@
                     <span class="text-gray-700 dark:text-gray-400">
                         Civil Status
                     </span>
+
                     <select name="civil_status" id="civil_status" type="text" :value="('civil_status')"
                         class="block w-full mt-1 text-sm rounded border border-gray-300 dark:text-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700
                         form-select focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600">
@@ -385,6 +394,7 @@
             <div class="z-0 w-full group block text-sm text">
                 <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">SSS Number</span>
+
                     <input onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
                         oninput="formatSSS(this)" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                         focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
@@ -469,7 +479,6 @@
                 <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                     placeholder="Full Name" name="emergency_name" type="text" :value="('emergency_name')"/>
-
             </div>
         </div>
 
@@ -481,14 +490,12 @@
                     <span class="inline-flex items-center px-3 py-0 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md
                     dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600"
                         >+63</span>
-
                     <input onkeydown="return /[0-9-]/.test(event.key) || event.key ===
                         'Backspace' || event.key === 'Delete'" oninput="formatPhoneNumber(this)"
                         class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                         focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                         id="phoneNumberContact" placeholder="000-000-0000" maxlength="12"
                         name="emergency_contactnum " type="text" :value="('emergency_contactnum')" required/>
-
                 </div>
                 <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
                     Phone number is invalid.
@@ -497,6 +504,7 @@
             <div class="z-0 w-full group block text-sm text">
                 <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Relationship</span>
+
                     <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                     focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                         placeholder="Relationship" name="emergency_relationship" type="text" :value="('emergency_relationship')"/>
@@ -513,6 +521,7 @@
         <!-- CV and TOR/Diploma -->
         <div class="grid md:grid-cols-2 gap-4">
             <div class="z-0 w-full group block text-sm">
+<
                 <span class="text-gray-700 dark:text-gray-400">Upload Curriculum vitae</span>
                 <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300  dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300  form-input"
@@ -522,7 +531,6 @@
             </div>
             <div class="z-0 w-full group block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Upload Transcript of Record/Diploma</span>
-
                 <input  class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                     id="tor-file-upload" name="file_tor" type="file" :value="('file_tor')"/>
@@ -532,6 +540,7 @@
         <!-- Contract and Pledge -->
         <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="z-0 w-full group block text-sm">
+
                 <span class="text-gray-700 dark:text-gray-400">Contract</span>
                 <input class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
@@ -549,6 +558,7 @@
         <!-- Sketch of Residence and Certificate of Clearance from Previous Employer -->
         <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="z-0 w-full group block text-sm">
+
                 <span class="text-gray-700 dark:text-gray-400">Certificate of Clearance from Previous Employer</span>
                 <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
@@ -568,7 +578,6 @@
                 </span>
             </div>
         </div>
-
         <!-- Laptop Agreement, Memo and Notice to Explain  -->
         <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="z-0 w-full group block text-sm">
@@ -592,10 +601,12 @@
         </div>
         <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="z-0 w-full group block text-sm">
+
                 <span class="text-gray-700 dark:text-gray-400">Notice to Explain</span>
                 <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                     id="sketch-file-upload" name="notice_to_explain" type="file" :value="('notice_to_explain')"/>
+
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
@@ -609,7 +620,6 @@
         rounded-md focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 hover:bg-purple-700">
             Save
         </button>
-
         <a href="/dashboard">
             <button type="submit" class="px-6 py-2 text-gray-600 rounded-md focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
             border dark:border-gray-600">
