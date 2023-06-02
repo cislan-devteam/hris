@@ -20,6 +20,49 @@ class ManageUserController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+
+            //Personal Info
+            'employee_name' => 'required',
+            'profile_picture' => 'required|mimes:jpg,jpeg,png,gif,svg',
+            'address2' => 'required|max:255',
+            'address1' => 'required|max:255',
+            'email_address'=> 'required|email',
+            'contact_number' => 'required|min:10|max:10',
+            'birth_date' => 'required|date',
+            'birth_place' => 'required',
+            'civil_status' => 'required',
+            'nationality' => 'required',
+            'position' => 'required',
+
+            //Government ID Number
+            'tin' => 'required|max:15',
+            'sss_num' => 'required|max:12',
+            'pagibig_num' => 'required|max:14',
+            'philhealth_num' => 'required|max:14',
+
+            //Government Docs
+            'nbi_clearance' => 'required|mimes:jpg,jpeg,png,pdf,docx',
+            'gov_id1' => 'required|mimes:jpg,jpeg,png',
+            'gov_id2' => 'required|mimes:jpg,jpeg,png',
+
+            //Emergency Contact Numbers
+            'emergency_name' => 'required',
+            'emergency_contactnum' => 'required|min:10|max:10',
+            'emergency_relationship' => 'required',
+
+            //file upload
+            'file_cv' => 'required|mimes:jpg,jpeg,png,pdf,docx',
+            'file_tor' => 'required|mimes:jpg,jpeg,png,pdf',
+            'file_contract' => 'required|mimes:pdf,docx',
+            'file_pledge' => 'required|mimes:pdf,docx',
+            'file_certificate_of_former_employer' => 'required|mimes:jpg,jpeg,png,pdf,docx',
+            'img_sketch_of_residence' => 'required|mimes:jpg,jpeg,png',
+            'file_laptop_agreement' => 'required|mimes:pdf,docx',
+            'file_memo' => 'mimes:pdf,docx',
+            'notice_to_explain' => 'mimes:pdf,docx'
+        ]);
+
         $user_info = new Employee_information();
 
         //Profile Picture
@@ -43,6 +86,7 @@ class ManageUserController extends Controller
         $user_info ->employee_name = $request -> employee_name;
         $user_info ->address1 = $request -> address1;
         $user_info ->address2 = $request -> address2;
+        $user_info ->email_address = $request -> email_address;
 
         //num
         $user_info ->contact_number = $request -> contact_number;
@@ -61,7 +105,24 @@ class ManageUserController extends Controller
         $user_info ->sss_num = $request -> sss_num;
         $user_info ->pagibig_num = $request -> pagibig_num;
         $user_info ->philhealth_num = $request -> philhealth_num;
+
         $user_info ->nbi_clearance = $request -> nbi_clearance;
+        //nbi_clearance
+        if($request->hasFile('nbi_clearance')){
+            //get filename with the extention
+            $fileNameWithExt = $request->file('nbi_clearance')->getClientOriginalName();
+            // get just filename
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            // get just Ext
+            $extention = $request->file('nbi_clearance')->getClientOriginalExtension();
+            $fileNameToStore = $fileName.'_'.time().'.'.$extention;
+            //save in database ->
+            $user_info -> nbi_clearance = $fileNameToStore;
+            //going to public
+            $destinationPath = public_path().'/nbi_clearance_folder';
+            $request->file('nbi_clearance')->move($destinationPath,$fileNameToStore);
+        }
+
 
         //img gov id1
         if($request->hasFile('gov_id1')){
@@ -75,7 +136,7 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> gov_id1 = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/gov_id';
             $request->file('gov_id1')->move($destinationPath,$fileNameToStore);
         }
 
@@ -91,7 +152,7 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> gov_id2 = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/gov_id';
             $request->file('gov_id2')->move($destinationPath,$fileNameToStore);
         }
 
@@ -112,10 +173,9 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> file_cv = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/cv';
             $request->file('file_cv')->move($destinationPath,$fileNameToStore);
         }
-
 
         //Transcript of Record
         if($request->hasFile('file_tor')){
@@ -129,7 +189,7 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> file_tor = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/tor_folder';
             $request->file('file_tor')->move($destinationPath,$fileNameToStore);
         }
 
@@ -145,7 +205,7 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> file_certificate_of_former_employer = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/former_employer';
             $request->file('file_certificate_of_former_employer')->move($destinationPath,$fileNameToStore);
         }
 
@@ -161,10 +221,9 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> img_sketch_of_residence = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/sketch_of_resident';
             $request->file('img_sketch_of_residence')->move($destinationPath,$fileNameToStore);
         }
-
 
         //pdf only
         //file_contract
@@ -179,7 +238,7 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> file_contract = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/contract';
             $request->file('file_contract')->move($destinationPath,$fileNameToStore);
         }
 
@@ -196,7 +255,7 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> file_pledge = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/pledge';
             $request->file('file_pledge')->move($destinationPath,$fileNameToStore);
         }
 
@@ -212,7 +271,7 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> file_laptop_agreement = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/laptop_agreement';
             $request->file('file_laptop_agreement')->move($destinationPath,$fileNameToStore);
         }
         //memo
@@ -228,7 +287,7 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> file_memo = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/memo';
             $request->file('file_memo')->move($destinationPath,$fileNameToStore);
         }
 
@@ -244,12 +303,12 @@ class ManageUserController extends Controller
             //save in database ->
             $user_info -> notice_to_explain = $fileNameToStore;
             //going to public
-            $destinationPath = public_path().'/attachfile';
+            $destinationPath = public_path().'/notice_to_explain';
             $request->file('notice_to_explain')->move($destinationPath,$fileNameToStore);
         }
 
         $user_info->save();
-        return redirect()->route('manage.users.index');
+        return redirect()->route('manage.users.index')->with('success', 'Employee Information added successfully');
 
     }
 

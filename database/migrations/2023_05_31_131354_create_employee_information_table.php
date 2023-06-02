@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('email_address');
 
             //
-            $table->varchar('contact_number');
+            $table->string('contact_number');
             $table->string('address2');
             $table->string('address1');
             $table->date('birth_date');
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('gov_id1');
             $table->string('gov_id2');
             $table->string('emergency_name');
-            $table->varchar('emergency_contactnum');
+            $table->string('emergency_contactnum');
             $table->string('emergency_relationship');
 
             $table->string('file_cv')->nullable();

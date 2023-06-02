@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('time_offs', function (Blueprint $table) {
             $table->id();
-            //$table->foreign('name')->references('id')->on('users');
+            //$table->foreign('employee_name')->references('id')->on('users');
             $table->string('employee_name');
             $table->date('start_date');
             $table->date('end_date');

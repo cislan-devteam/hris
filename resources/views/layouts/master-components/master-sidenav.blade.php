@@ -32,7 +32,7 @@
                    0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
                 </svg>
                 <span class="ml-4">
-                  {{ __('Tasks') }}
+                  {{ __('Role Assignment') }}
                 </span>
               </a>
             </li>
