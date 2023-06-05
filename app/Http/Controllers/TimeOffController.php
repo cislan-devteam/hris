@@ -94,7 +94,7 @@ class TimeOffController extends Controller
             'end_date'=> 'required|date|after:start_date',
             'leave_type'=> 'required',
             'leave_reason' => 'required|max:255',
-            'file_attachment'=> 'size:4000|mimes:jpeg,png,jpg,gif'
+            'file_attachment'=> 'max:10240|mimes:jpeg,png,jpg,gif'
         ]);
 
             $timeoff->employee_name = $request->employee_name;
