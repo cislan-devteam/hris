@@ -20,6 +20,9 @@
     </a>
     </div>
 
+    {{-- Error Message --}}
+    @include('components.template.error_message')
+
     <!-- General elements -->
 
     <form method="POST" action={{ route('timeoff.update', $timeoff->id)}} enctype="multipart/form-data">
