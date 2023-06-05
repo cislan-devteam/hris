@@ -16,6 +16,8 @@ use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\SuperAdmin\SuperAdmin;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
+use App\Http\Controllers\EmployeeInformation;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,7 +66,6 @@ Route::delete('/timeoff/{id}', [TimeOffController::class, 'destroy'])->name('tim
 Route::get('/timeoff/{id}/directors_edit', [TimeOffController::class, 'statusview'])->name('directors.edit');
 Route::put('/timeoff/{id}/directors_edit', [TimeOffController::class, 'statusStore'])->name('directors.update');
 
-
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'role:Super Admin', 'prefix' => 'superAdmin', 'as' => 'superAdmin.'], function () {
         Route::resource('dashboard', SuperAdmin::class);
@@ -104,4 +105,6 @@ Route::post('clockit/clockin', [ClockItController::class, 'clockIn'])->name('clo
 Route::post('clockit/clockout', [ClockItController::class, 'clockOut'])->name('clockit.clockout');
 Route::resource('clockit', ClockItController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 
-Route::get('/template/add-user', [ManageUserController::class, 'index'])->name('manage.users.index');
+Route::get('/template/employeeview', [ManageUserController::class, 'index'])->name('manage.users.index');
+Route::get('/template/add-user', [ManageUserController::class, 'create']);
+Route::post('/template/add-user', [ManageUserController::class,'store']);

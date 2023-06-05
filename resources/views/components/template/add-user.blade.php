@@ -1,5 +1,5 @@
 <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-    Add User
+    Add Employee Information
 </h2>
 
 <!-- Success Validation -->
@@ -21,11 +21,30 @@
     <i class="fa-solid fa-circle-xmark fa-lg px-1" style="color: #ffffff;"  onclick="this.parentElement.style.display = 'none';"></i>
 </div> --}}
 
-<form  id="add-user-form" method="post" action="/adduser" class="mb-8" enctype="multipart/form-data">
+{{-- Error Message --}}
+@if ($errors->any())
+<div class="submission-fail-message items-center flex justify-between p-4 mb-8 text-sm font-semibold
+            text-purple-100 bg-red-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red">
+    <div>
+        <i class="fa-sharp fa-solid fa-circle-exclamation fa-lg mr-2" style="color: #ffffff;"></i>
+            <span>Something went wrong. Please check and try again. </span>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li class="p-1 text-sm font-semibold text-purple-100
+                bg-red-600 rounded-lg  focus:outline-none focus:shadow-outline-red list-none"
+                onclick="this.parentElement.style.display = 'none'";>
+                {{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+</div>
+@endif
+
+<form method="POST" action={{ url('/template/add-user') }} class="mb-8" id="add-user-form" enctype="multipart/form-data">
     @csrf
         <!-- User Information -->
-    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-        User Information
+    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300 ">
+        Personal Information
     </h4>
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
 
@@ -33,86 +52,105 @@
         <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400">Upload Profile Picture</span>
             <input
-                type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                id="pfp-file-upload" required/>
+                id="pfp-file-upload" accept="image/png, image/jpg, image/jpeg" name="profile_picture" type="file" :value="('profile_picture')"
+                />
             <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                 Please select a file.
             </span>
         </label>
 
         <!-- User Name -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <div class="block mt-4">
             <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">First Name</span>
-                <input type="text" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600
+                <span class="text-gray-700 dark:text-gray-400">Full Name</span>
+                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600
                 dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
-                dark:text-gray-300 form-input" placeholder="First Name" id="userFName"/>
+                dark:text-gray-300 form-input" placeholder="Full name " id="userFName" name="employee_name" type="text"
+                :value="('employee_name')" required/>
             </div>
+        </div>
+        <!-- Email Address Mobile Number -->
+        <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <!-- Email Address -->
+            <label class="block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Email Address</span>
+                    <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input" placeholder="Email Address"
+                    name="email_address" type="text" :value="('email_address')" required/>
+            </label>
+            {{-- Mobile --}}
             <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Last Name</span>
-                    <input type="text" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                    focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    placeholder="Last Name" id="userSName"/>
+                <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
+                <div class="flex mt-1">
+                <span class="inline-flex items-center px-3 py-0 text-sm  text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600
+                dark:text-gray-400 dark:border-gray-600">+63</span>
+                <input onkeydown="return
+                        /[0-9-]/.test(event.key) || event.key ===
+                        'Backspace' || event.key === 'Delete'"
+                    oninput="formatPhoneNumber(this)"
+                    class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
+                    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    id="phoneNumber" placeholder="0000000000" maxlength="10" name="contact_number" type="number" :value="('contact_number')" required/>
+                </div>
+                <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
+                    Phone number is invalid.
+                </span>
             </div>
         </div>
 
         <!-- Present Address -->
         <label class="block mt-4 text-sm">
             <span class="text-gray-700 dark:text-gray-400">Present Address</span>
-            <input type="text"class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+            <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                placeholder="Present Address" id="addressPresent"/>
+                placeholder="Present Address" id="addressPresent" name="address1" type="text" :value="('address1')" required/>
         </label>
 
         <!-- Permanent Address -->
         <label class="block mt-4 text-sm">
             <span class="text-gray-700 dark:text-gray-400">Permanent Address</span>
-            <input type="text" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+
+            <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                placeholder="Permanent Address" id="addressPermanent"/>
+                placeholder="Permanent Address" id="addressPermanent" name="address2" type="text" :value="('address2')" required/>
         </label>
 
-        <label class="flex items-center dark:text-gray-400 text-sm mt-4">
-            <input type="checkbox" class="text-purple-600 form-checkbox focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600"
-                id="addressCheck"/>
+        {{-- <label class="flex items-center dark:text-gray-400 text-sm mt-4">
+            <input class="text-purple-600 form-checkbox focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600"
+                id="addressCheck"name="" type="checkbox" value="address1"/>
             <span class="ml-2"> Same as Present Address
             </span>
-        </label>
+        </label> --}}
 
-        <!-- Mobile Number and Birth Date -->
+        <!-- Birthday and Birth Place -->
         <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
-                <div class="flex mt-1">
-                    <span class="inline-flex items-center px-3 py-0 text-sm  text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600
-                     dark:text-gray-400 dark:border-gray-600">+63</span>
-                    <input type="text"
-                        onkeydown="return
-                            /[0-9-]/.test(event.key) || event.key ===
-                            'Backspace' || event.key === 'Delete'"
-                        oninput="formatPhoneNumber(this)"
-                        class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                        id="phoneNumber" placeholder="000-000-0000" maxlength="12"required/>
-                </div>
-                <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
-                    Phone number is invalid.
-                </span>
-            </div>
             <div class="z-0 w-full group block text-sm text">
                 <span class="text-gray-700 dark:text-gray-400">Birth Date</span>
-                <input type="date" class="block w-full mt-1 datePadding text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"/>
+                    <div class=" w-full relative ">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2
+                            2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd">
+                            </path></svg>
+                        </div>
+                        <input datepicker datepicker-autohide datepicker-format="yyyy-mm-dd"
+                        class="pl-9 p-2 w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600
+                        dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
+                        dark:text-gray-300 form-input"
+                        placeholder="Select birth date" name="birth_date" type="text" :value="('birth_date')" required>
+                    </div>
             </div>
+            <!-- Birth Place -->
+            <label class="block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Birth Place</span>
+                    <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input" placeholder="Birth Place"
+                    name="birth_place" type="text" :value="('birth_place')" required/>
+            </label>
         </div>
-        <!-- Birth Place -->
-        <label class="block mt-4 text-sm">
-            <span class="text-gray-700 dark:text-gray-400">Birth Place</span>
-            <input type="text" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input" placeholder="Birth Place"/>
-        </label>
-
         <!-- Civil Status and Nationality -->
         <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="z-0 w-full group block text-sm">
@@ -120,17 +158,15 @@
                     <span class="text-gray-700 dark:text-gray-400">
                         Civil Status
                     </span>
-                    <select name="civil-status" id="civil-status"
+                    <select name="civil_status" id="civil_status" type="text" :value="('civil_status')"
                         class="block w-full mt-1 text-sm rounded border border-gray-300 dark:text-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700
                         form-select focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600">
-                        <option>
-                            Select your civil status...
-                        </option>
+                        <option></option>
                         <option>Single</option>
                         <option>Married</option>
                         <option>Divorced</option>
                         <option>Separated</option>
-                        <option>Widowed</option>
+                        <option>Widower/Widow</option>
                         <option>Annulled</option>
                     </select>
                 </label>
@@ -138,211 +174,214 @@
             <div class="z-0 w-full group block text-sm text">
                 <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Nationality</span>
-                    <select name="nationality" id="nationality"
+                    <select name="nationality" id="nationality" type="text" :value="('nationality')"
                         class="block w-full mt-1 text-sm rounded border border-gray-300 dark:text-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700
                         form-select focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600">
                         <option>
-                            Select your civil status...
                         </option>
-                        <option value="">-- select one --</option>
-                        <option value="afghan">Afghan</option>
-                        <option value="albanian">Albanian</option>
-                        <option value="algerian">Algerian</option>
-                        <option value="american">American</option>
-                        <option value="andorran">Andorran</option>
-                        <option value="angolan">Angolan</option>
-                        <option value="antiguans">Antiguans</option>
-                        <option value="argentinean">Argentinean</option>
-                        <option value="armenian">Armenian</option>
-                        <option value="australian">Australian</option>
-                        <option value="austrian">Austrian</option>
-                        <option value="azerbaijani">Azerbaijani</option>
-                        <option value="bahamian">Bahamian</option>
-                        <option value="bahraini">Bahraini</option>
-                        <option value="bangladeshi">Bangladeshi</option>
-                        <option value="barbadian">Barbadian</option>
-                        <option value="barbudans">Barbudans</option>
-                        <option value="batswana">Batswana</option>
-                        <option value="belarusian">Belarusian</option>
-                        <option value="belgian">Belgian</option>
-                        <option value="belizean">Belizean</option>
-                        <option value="beninese">Beninese</option>
-                        <option value="bhutanese">Bhutanese</option>
-                        <option value="bolivian">Bolivian</option>
-                        <option value="bosnian">Bosnian</option>
-                        <option value="brazilian">Brazilian</option>
-                        <option value="british">British</option>
-                        <option value="bruneian">Bruneian</option>
-                        <option value="bulgarian">Bulgarian</option>
-                        <option value="burkinabe">Burkinabe</option>
-                        <option value="burmese">Burmese</option>
-                        <option value="burundian">Burundian</option>
-                        <option value="cambodian">Cambodian</option>
-                        <option value="cameroonian">Cameroonian</option>
-                        <option value="canadian">Canadian</option>
-                        <option value="cape verdean">Cape Verdean</option>
-                        <option value="central african">Central African</option>
-                        <option value="chadian">Chadian</option>
-                        <option value="chilean">Chilean</option>
-                        <option value="chinese">Chinese</option>
-                        <option value="colombian">Colombian</option>
-                        <option value="comoran">Comoran</option>
-                        <option value="congolese">Congolese</option>
-                        <option value="costa rican">Costa Rican</option>
-                        <option value="croatian">Croatian</option>
-                        <option value="cuban">Cuban</option>
-                        <option value="cypriot">Cypriot</option>
-                        <option value="czech">Czech</option>
-                        <option value="danish">Danish</option>
-                        <option value="djibouti">Djibouti</option>
-                        <option value="dominican">Dominican</option>
-                        <option value="dutch">Dutch</option>
-                        <option value="east timorese">East Timorese</option>
-                        <option value="ecuadorean">Ecuadorean</option>
-                        <option value="egyptian">Egyptian</option>
-                        <option value="emirian">Emirian</option>
-                        <option value="equatorial guinean">Equatorial Guinean</option>
-                        <option value="eritrean">Eritrean</option>
-                        <option value="estonian">Estonian</option>
-                        <option value="ethiopian">Ethiopian</option>
-                        <option value="fijian">Fijian</option>
-                        <option value="filipino">Filipino</option>
-                        <option value="finnish">Finnish</option>
-                        <option value="french">French</option>
-                        <option value="gabonese">Gabonese</option>
-                        <option value="gambian">Gambian</option>
-                        <option value="georgian">Georgian</option>
-                        <option value="german">German</option>
-                        <option value="ghanaian">Ghanaian</option>
-                        <option value="greek">Greek</option>
-                        <option value="grenadian">Grenadian</option>
-                        <option value="guatemalan">Guatemalan</option>
-                        <option value="guinea-bissauan">Guinea-Bissauan</option>
-                        <option value="guinean">Guinean</option>
-                        <option value="guyanese">Guyanese</option>
-                        <option value="haitian">Haitian</option>
-                        <option value="herzegovinian">Herzegovinian</option>
-                        <option value="honduran">Honduran</option>
-                        <option value="hungarian">Hungarian</option>
-                        <option value="icelander">Icelander</option>
-                        <option value="indian">Indian</option>
-                        <option value="indonesian">Indonesian</option>
-                        <option value="iranian">Iranian</option>
-                        <option value="iraqi">Iraqi</option>
-                        <option value="irish">Irish</option>
-                        <option value="israeli">Israeli</option>
-                        <option value="italian">Italian</option>
-                        <option value="ivorian">Ivorian</option>
-                        <option value="jamaican">Jamaican</option>
-                        <option value="japanese">Japanese</option>
-                        <option value="jordanian">Jordanian</option>
-                        <option value="kazakhstani">Kazakhstani</option>
-                        <option value="kenyan">Kenyan</option>
-                        <option value="kittian and nevisian">Kittian and Nevisian</option>
-                        <option value="kuwaiti">Kuwaiti</option>
-                        <option value="kyrgyz">Kyrgyz</option>
-                        <option value="laotian">Laotian</option>
-                        <option value="latvian">Latvian</option>
-                        <option value="lebanese">Lebanese</option>
-                        <option value="liberian">Liberian</option>
-                        <option value="libyan">Libyan</option>
-                        <option value="liechtensteiner">Liechtensteiner</option>
-                        <option value="lithuanian">Lithuanian</option>
-                        <option value="luxembourger">Luxembourger</option>
-                        <option value="macedonian">Macedonian</option>
-                        <option value="malagasy">Malagasy</option>
-                        <option value="malawian">Malawian</option>
-                        <option value="malaysian">Malaysian</option>
-                        <option value="maldivan">Maldivan</option>
-                        <option value="malian">Malian</option>
-                        <option value="maltese">Maltese</option>
-                        <option value="marshallese">Marshallese</option>
-                        <option value="mauritanian">Mauritanian</option>
-                        <option value="mauritian">Mauritian</option>
-                        <option value="mexican">Mexican</option>
-                        <option value="micronesian">Micronesian</option>
-                        <option value="moldovan">Moldovan</option>
-                        <option value="monacan">Monacan</option>
-                        <option value="mongolian">Mongolian</option>
-                        <option value="moroccan">Moroccan</option>
-                        <option value="mosotho">Mosotho</option>
-                        <option value="motswana">Motswana</option>
-                        <option value="mozambican">Mozambican</option>
-                        <option value="namibian">Namibian</option>
-                        <option value="nauruan">Nauruan</option>
-                        <option value="nepalese">Nepalese</option>
-                        <option value="new zealander">New Zealander</option>
-                        <option value="ni-vanuatu">Ni-Vanuatu</option>
-                        <option value="nicaraguan">Nicaraguan</option>
-                        <option value="nigerien">Nigerien</option>
-                        <option value="north korean">North Korean</option>
-                        <option value="northern irish">Northern Irish</option>
-                        <option value="norwegian">Norwegian</option>
-                        <option value="omani">Omani</option>
-                        <option value="pakistani">Pakistani</option>
-                        <option value="palauan">Palauan</option>
-                        <option value="panamanian">Panamanian</option>
-                        <option value="papua new guinean">Papua New Guinean</option>
-                        <option value="paraguayan">Paraguayan</option>
-                        <option value="peruvian">Peruvian</option>
-                        <option value="polish">Polish</option>
-                        <option value="portuguese">Portuguese</option>
-                        <option value="qatari">Qatari</option>
-                        <option value="romanian">Romanian</option>
-                        <option value="russian">Russian</option>
-                        <option value="rwandan">Rwandan</option>
-                        <option value="saint lucian">Saint Lucian</option>
-                        <option value="salvadoran">Salvadoran</option>
-                        <option value="samoan">Samoan</option>
-                        <option value="san marinese">San Marinese</option>
-                        <option value="sao tomean">Sao Tomean</option>
-                        <option value="saudi">Saudi</option>
-                        <option value="scottish">Scottish</option>
-                        <option value="senegalese">Senegalese</option>
-                        <option value="serbian">Serbian</option>
-                        <option value="seychellois">Seychellois</option>
-                        <option value="sierra leonean">Sierra Leonean</option>
-                        <option value="singaporean">Singaporean</option>
-                        <option value="slovakian">Slovakian</option>
-                        <option value="slovenian">Slovenian</option>
-                        <option value="solomon islander">Solomon Islander</option>
-                        <option value="somali">Somali</option>
-                        <option value="south african">South African</option>
-                        <option value="south korean">South Korean</option>
-                        <option value="spanish">Spanish</option>
-                        <option value="sri lankan">Sri Lankan</option>
-                        <option value="sudanese">Sudanese</option>
-                        <option value="surinamer">Surinamer</option>
-                        <option value="swazi">Swazi</option>
-                        <option value="swedish">Swedish</option>
-                        <option value="swiss">Swiss</option>
-                        <option value="syrian">Syrian</option>
-                        <option value="taiwanese">Taiwanese</option>
-                        <option value="tajik">Tajik</option>
-                        <option value="tanzanian">Tanzanian</option>
-                        <option value="thai">Thai</option>
-                        <option value="togolese">Togolese</option>
-                        <option value="tongan">Tongan</option>
-                        <option value="trinidadian or tobagonian">Trinidadian or Tobagonian</option>
-                        <option value="tunisian">Tunisian</option>
-                        <option value="turkish">Turkish</option>
-                        <option value="tuvaluan">Tuvaluan</option>
-                        <option value="ugandan">Ugandan</option>
-                        <option value="ukrainian">Ukrainian</option>
-                        <option value="uruguayan">Uruguayan</option>
-                        <option value="uzbekistani">Uzbekistani</option>
-                        <option value="venezuelan">Venezuelan</option>
-                        <option value="vietnamese">Vietnamese</option>
-                        <option value="welsh">Welsh</option>
-                        <option value="yemenite">Yemenite</option>
-                        <option value="zambian">Zambian</option>
-                        <option value="zimbabwean">Zimbabwean</option>
+                        <option>Afghan</option>
+                        <option>Albanian</option>
+                        <option>Algerian</option>
+                        <option>American</option>
+                        <option>Andorran</option>
+                        <option>Angolan</option>
+                        <option>Antiguans</option>
+                        <option>Argentinean</option>
+                        <option>Armenian</option>
+                        <option>Australian</option>
+                        <option>Austrian</option>
+                        <option>Azerbaijani</option>
+                        <option>Bahamian</option>
+                        <option>Bahraini</option>
+                        <option>Bangladeshi</option>
+                        <option>Barbadian</option>
+                        <option>Barbudans</option>
+                        <option>Batswana</option>
+                        <option>Belarusian</option>
+                        <option>Belgian</option>
+                        <option>Belizean</option>
+                        <option>Beninese</option>
+                        <option>Bhutanese</option>
+                        <option>Bolivian</option>
+                        <option>Bosnian</option>
+                        <option>Brazilian</option>
+                        <option>British</option>
+                        <option>Bruneian</option>
+                        <option>Bulgarian</option>
+                        <option>Burkinabe</option>
+                        <option>Burmese</option>
+                        <option>Burundian</option>
+                        <option>Cambodian</option>
+                        <option>Cameroonian</option>
+                        <option>Canadian</option>
+                        <option>Cape Verdean</option>
+                        <option>Central African</option>
+                        <option>Chadian</option>
+                        <option>Chilean</option>
+                        <option>Chinese</option>
+                        <option>Colombian</option>
+                        <option>Comoran</option>
+                        <option>Congolese</option>
+                        <option>Costa Rican</option>
+                        <option>Croatian</option>
+                        <option>Cuban</option>
+                        <option>Cypriot</option>
+                        <option>Czech</option>
+                        <option>Danish</option>
+                        <option>Djibouti</option>
+                        <option>Dominican</option>
+                        <option>Dutch</option>
+                        <option>East Timorese</option>
+                        <option>Ecuadorean</option>
+                        <option>Egyptian</option>
+                        <option>Emirian</option>
+                        <option>Equatorial Guinean</option>
+                        <option>Eritrean</option>
+                        <option>Estonian</option>
+                        <option>Ethiopian</option>
+                        <option>Fijian</option>
+                        <option>Filipino</option>
+                        <option>Finnish</option>
+                        <option>French</option>
+                        <option>Gabonese</option>
+                        <option>Gambian</option>
+                        <option>Georgian</option>
+                        <option>German</option>
+                        <option>Ghanaian</option>
+                        <option>Greek</option>
+                        <option>Grenadian</option>
+                        <option>Guatemalan</option>
+                        <option>Guinea-Bissauan</option>
+                        <option>Guinean</option>
+                        <option>Guyanese</option>
+                        <option>Haitian</option>
+                        <option>Herzegovinian</option>
+                        <option>Honduran</option>
+                        <option>Hungarian</option>
+                        <option>Icelander</option>
+                        <option>Indian</option>
+                        <option>Indonesian</option>
+                        <option>Iranian</option>
+                        <option>Iraqi</option>
+                        <option>Irish</option>
+                        <option>Israeli</option>
+                        <option>Italian</option>
+                        <option>Ivorian</option>
+                        <option>Jamaican</option>
+                        <option>Japanese</option>
+                        <option>Jordanian</option>
+                        <option>Kazakhstani</option>
+                        <option>Kenyan</option>
+                        <option>Kittian and Nevisian</option>
+                        <option>Kuwaiti</option>
+                        <option>Kyrgyz</option>
+                        <option>Laotian</option>
+                        <option>Latvian</option>
+                        <option>Lebanese</option>
+                        <option>Liberian</option>
+                        <option>Libyan</option>
+                        <option>Liechtensteiner</option>
+                        <option>Lithuanian</option>
+                        <option>Luxembourger</option>
+                        <option>Macedonian</option>
+                        <option>Malagasy</option>
+                        <option>Malawian</option>
+                        <option>Malaysian</option>
+                        <option>Maldivan</option>
+                        <option>Malian</option>
+                        <option>Maltese</option>
+                        <option>Marshallese</option>
+                        <option>Mauritanian</option>
+                        <option>Mauritian</option>
+                        <option>Mexican</option>
+                        <option>Micronesian</option>
+                        <option>Moldovan</option>
+                        <option>Monacan</option>
+                        <option>Mongolian</option>
+                        <option>Moroccan</option>
+                        <option>Mosotho</option>
+                        <option>Motswana</option>
+                        <option>Mozambican</option>
+                        <option>Namibian</option>
+                        <option>Nauruan</option>
+                        <option>Nepalese</option>
+                        <option>New Zealander</option>
+                        <option>Ni-Vanuatu</option>
+                        <option>Nicaraguan</option>
+                        <option>Nigerien</option>
+                        <option>North Korean</option>
+                        <option>Northern Irish</option>
+                        <option>Norwegian</option>
+                        <option>Omani</option>
+                        <option>Pakistani</option>
+                        <option>Palauan</option>
+                        <option>Panamanian</option>
+                        <option>Papua New Guinean</option>
+                        <option>Paraguayan</option>
+                        <option>Peruvian</option>
+                        <option>Polish</option>
+                        <option>Portuguese</option>
+                        <option>Qatari</option>
+                        <option>Romanian</option>
+                        <option>Russian</option>
+                        <option>Rwandan</option>
+                        <option>Saint Lucian</option>
+                        <option>Salvadoran</option>
+                        <option>Samoan</option>
+                        <option>San Marinese</option>
+                        <option>Sao Tomean</option>
+                        <option>Saudi</option>
+                        <option>Scottish</option>
+                        <option>Senegalese</option>
+                        <option>Serbian</option>
+                        <option>Seychellois</option>
+                        <option>Sierra Leonean</option>
+                        <option>Singaporean</option>
+                        <option>Slovakian</option>
+                        <option>Slovenian</option>
+                        <option>Solomon Islander</option>
+                        <option>Somali</option>
+                        <option>South African</option>
+                        <option>South Korean</option>
+                        <option>Spanish</option>
+                        <option>Sri Lankan</option>
+                        <option>Sudanese</option>
+                        <option>Surinamer</option>
+                        <option>Swazi</option>
+                        <option>Swedish</option>
+                        <option>Swiss</option>
+                        <option>Syrian</option>
+                        <option>Taiwanese</option>
+                        <option>Tanzanian</option>
+                        <option>Thai</option>
+                        <option>Togolese</option>
+                        <option>Tongan</option>
+                        <option>Trinidadian or Tobagonian</option>
+                        <option>Tunisian</option>
+                        <option>Turkish</option>
+                        <option>Tuvaluan</option>
+                        <option>Ugandan</option>
+                        <option>Ukrainian</option>
+                        <option>Uruguayan</option>
+                        <option>Uzbekistani</option>
+                        <option>Venezuelan</option>
+                        <option>Vietnamese</option>
+                        <option>Welsh</option>
+                        <option>Yemenite</option>
+                        <option>Zambian</option>
+                        <option>Zimbabwean</option>
                     </select>
                 </label>
             </div>
         </div>
+        <!-- Position -->
+        <label class="block mt-3 text-sm">
+            <span class="text-gray-700 dark:text-gray-400">Position</span>
+            <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+            placeholder="Position" name="position" id="position" type="text" :value="('position')"/>
+        </label>
     </div>
-
 
     <!-- User Government ID Numbers -->
     <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
@@ -354,20 +393,22 @@
             <div class="z-0 w-full group block text-sm">
                 <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Tax Identification Number</span>
-                    <input type="text" onkeydown="return /[0-9-]/.test(event.key) || event.key ===
+                    <input onkeydown="return /[0-9-]/.test(event.key) || event.key ===
                     'Backspace' || event.key === 'Delete'" oninput="formatTIN(this)"
                         class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:ring-1
-                        focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                        id="tin" placeholder="000-000-000-000" maxlength="15"/>
+                        focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
+                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        id="tin" placeholder="000000000000" maxlength="12" name="tin" type="number" :value="('tin')"/>
                 </label>
             </div>
             <div class="z-0 w-full group block text-sm text">
                 <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">SSS Number</span>
-                    <input type="text" onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
+                    <input onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
                         oninput="formatSSS(this)" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                        focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                        id="sss" placeholder="00-0000000-0" maxlength="12"/>
+                        focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
+                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        id="sss" placeholder="0000000000" maxlength="10" name="sss_num" type="number" :value="('sss_num')"/>
                 </label>
             </div>
         </div>
@@ -377,21 +418,64 @@
             <div class="z-0 w-full group block text-sm">
                 <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Pag-IBIG Number</span>
-                    <input type="text" onkeydown="return /[0-9-]/.test(event.key) || event.key ===
+                    <input onkeydown="return /[0-9-]/.test(event.key) || event.key ===
                     'Backspace' || event.key === 'Delete'" oninput="formatPagIbig(this)"
                         class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                        id="pagIbig" placeholder="0000-0000-0000"maxlength="14"/>
+                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
+                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        id="pagIbig" placeholder="000000000000"maxlength="12" name="pagibig_num" type="number" :value="('pagibig_num')"/>
                 </label>
             </div>
             <div class="z-0 w-full group block text-sm text">
                 <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">PhilHealth Number</span>
-                    <input type="text" onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
+                    <input onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
                         oninput="formatPhilHealth(this)" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                        focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                        id="philHealth" placeholder="00-000000000-0" maxlength="14"/>
+                        focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
+                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        id="philHealth" placeholder="000000000000" maxlength="12" name="philhealth_num" type="number" :value="('philhealth_num')"/>
                 </label>
+            </div>
+        </div>
+    </div>
+    <!-- User Required File Uploads -->
+    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        Government Documents
+    </h4>
+    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <p class="mt-2 pb-2 text-sm text-gray-700 dark:text-gray-400">Add two government ID</p>
+        <!-- Valid IDs -->
+        <div class="mt-2 grid md:grid-cols-2 gap-4">
+            <div class="z-0 w-full group block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Government ID 1</span>
+                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                accept="image/png, image/jpg, image/jpeg" id="id1-file-upload" name="gov_id1" type="file" :value="('gov_id1')" required/>
+                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
+                    Please select a file.
+                </span>
+            </div>
+            <div class="z-0 w-full group block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Government ID 2</span>
+                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                accept="image/png, image/jpg, image/jpeg" id="id2-file-upload" name="gov_id2" type="file" :value="('gov_id2')" required/>
+                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
+                    Please select a file.
+                </span>
+            </div>
+        </div>
+        <!-- NBI/Barangay Clearance and Certificate of Clearance from Previous Employer -->
+        <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div class="z-0 w-full group block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">NBI/Barangay Clearance</span>
+                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                id="certNB-file-upload" name="nbi_clearance" type="file" :value="('nbi_clearance')" required/>
+                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
+                    Please select a file.
+                </span>
             </div>
         </div>
     </div>
@@ -402,18 +486,12 @@
     </h4>
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <!-- Contact Name -->
-        <div class="grid md:grid-cols-2 gap-4">
+        <div class="">
             <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">First Name</span>
-                <input type="text" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                <span class="text-gray-700 dark:text-gray-400">Full Name</span>
+                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    placeholder="First Name"/>
-            </div>
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Last Name</span>
-                <input type="text" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    placeholder="Last Name"/>
+                    placeholder="Full Name" name="emergency_name" type="text" :value="('emergency_name')"/>
             </div>
         </div>
 
@@ -425,13 +503,14 @@
                     <span class="inline-flex items-center px-3 py-0 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md
                     dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600"
                         >+63</span>
-
-                    <input type="text" onkeydown="return /[0-9-]/.test(event.key) || event.key ===
+                    <input
+                    onkeydown="return /[0-9-]/.test(event.key) || event.key ===
                         'Backspace' || event.key === 'Delete'" oninput="formatPhoneNumber(this)"
                         class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                        id="phoneNumberContact" placeholder="000-000-0000" maxlength="12" required/>
-
+                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
+                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        id="phoneNumberContact" placeholder="0000000000" maxlength="10"
+                        name="emergency_contactnum" type="number" :value="('emergency_contactnum')" required/>
                 </div>
                 <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
                     Phone number is invalid.
@@ -440,9 +519,9 @@
             <div class="z-0 w-full group block text-sm text">
                 <label class="block text-sm">
                     <span class="text-gray-700 dark:text-gray-400">Relationship</span>
-                    <input type="text" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                    <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                     focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                        placeholder="Relationship"/>
+                        placeholder="Relationship" name="emergency_relationship" type="text" :value="('emergency_relationship')"/>
                 </label>
             </div>
         </div>
@@ -456,140 +535,99 @@
         <!-- CV and TOR/Diploma -->
         <div class="grid md:grid-cols-2 gap-4">
             <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Upload CV</span>
-                <input type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300  dark:border-gray-600 dark:bg-gray-700
+                <span class="text-gray-700 dark:text-gray-400">Upload Curriculum vitae</span>
+                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300  dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300  form-input"
-                    id="cv-file-upload"required/>
+                accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                id="cv-file-upload" name="file_cv" type="file" :value="('file_cv')" required/>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.</span>
             </div>
             <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Upload TOR/Diploma</span>
-
-                <input type="file" class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                <span class="text-gray-700 dark:text-gray-400">Upload Transcript of Record/Diploma</span>
+                <input  class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    id="tor-file-upload"/>
+                accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                id="tor-file-upload" name="file_tor" type="file" :value="('file_tor')"/>
             </div>
         </div>
-
-        <!-- Memo and Notice to Explain -->
+        <!-- Contract and Pledge -->
         <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Memo</span>
-                <input type="file" class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                id="memo-file-upload"/>
-            </div>
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Notice to Explain</span>
-
-                <input type="file" class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                id="pfpFileUploadne-file-upload"/>
-            </div>
-        </div>
-
-        <!-- Pledge and Contract -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Pledge</span>
-                <input type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    id="p-file-upload" required/>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
             <div class="z-0 w-full group block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Contract</span>
-
-                <input type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    id="contract-file-upload" required/>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
+                <input class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                id="memo-file-upload" name="file_contract" type="file" :value="('file_contract')"/>
+            </div>
+            <div class="z-0 w-full group block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Pledge</span>
+                <input class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                id="pfpFileUploadne-file-upload" name="file_pledge" type="file" :value="('file_pledge')" required/>
             </div>
         </div>
 
-        <!-- Laptop Agreement -->
-        <div class="grid md:grid-cols-2 gap mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Laptop Agreement</span>
-                <input type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    id="la-file-upload" required/>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-            <div class="z-0 w-full group block text-sm"></div>
-        </div>
-    </div>
-
-    <!-- User Required File Uploads -->
-    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-        Government Documents
-    </h4>
-    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <!-- NBI/Barangay Clearance and Certificate of Clearance from Previous Employer -->
-        <div class="grid md:grid-cols-2 gap-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">NBI/Barangay Clearance</span>
-                <input type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    id="certNB-file-upload" required/>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
+        <!-- Sketch of Residence and Certificate of Clearance from Previous Employer -->
+        <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="z-0 w-full group block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Certificate of Clearance from Previous Employer</span>
-
-                <input type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    id="certE-file-upload" required/>
+                accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                id="p-file-upload" name="file_certificate_of_former_employer" type="file" :value="('file_certificate_of_former_employer')" required/>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
             </div>
-        </div>
-
-        <!-- Valid IDs -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Government ID 1</span>
-                <input type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    id="id1-file-upload" required/>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Government ID 2</span>
-                <input type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    id="id2-file-upload" required/>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-        </div>
-
-        <!-- Sketch of Residence -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="z-0 w-full group block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Sketch of Residence</span>
 
-                <input type="file" class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    id="sketch-file-upload"required/>
+                accept="image/png, image/jpg, image/jpeg" id="contract-file-upload" name="img_sketch_of_residence"
+                type="file" :value="('img_sketch_of_residence')" required/>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
             </div>
-            <div class="z-0 w-full group block text-sm"></div>
+        </div>
+        <!-- Laptop Agreement, Memo and Notice to Explain  -->
+        <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div class="z-0 w-full group block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Laptop Agreement</span>
+                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                id="sketch-file-upload" name="file_laptop_agreement" type="file" :value="('file_laptop_agreement')" required/>
+                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
+                    Please select a file.
+                </span>
+            </div>
+            <div class="z-0 w-full group block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Memo</span>
+                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" id="certE-file-upload"
+                name="file_memo" type="file" :value="('file_memo')" required/>
+                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
+                    Please select a file.
+                </span>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4 mt-4">
+            <div class="z-0 w-full group block text-sm">
+
+                <span class="text-gray-700 dark:text-gray-400">Notice to Explain</span>
+                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
+                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
+                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                id="sketch-file-upload" name="notice_to_explain" type="file" :value="('notice_to_explain')" required/>
+                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
+                    Please select a file.
+                </span>
+            </div>
         </div>
     </div>
 
@@ -599,9 +637,9 @@
         rounded-md focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 hover:bg-purple-700">
             Save
         </button>
-
-        <button class="px-6 py-2 text-gray-600 rounded-md focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 border dark:border-gray-600">
-            Cancel
-        </button>
+        <a href="/dashboard" class="px-6 py-2 text-gray-600 rounded-md focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
+        border dark:border-gray-600">
+        Cancel
+        </a>
     </div>
 </form>
