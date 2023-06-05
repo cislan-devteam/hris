@@ -48,6 +48,7 @@ class TimeOffController extends Controller
             //$timeoffs -> file_attachment = $fileNameToStore = $fileName.'_'.time().'.'.$extention;
 
             $fileNameToStore = $fileName.'_'.time().'.'.$extention;
+            //save in database ->
             $timeoffs -> file_attachment = $fileNameToStore;
 
             //going to public
