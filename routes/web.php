@@ -108,3 +108,8 @@ Route::resource('clockit', ClockItController::class)->except(['create', 'store',
 Route::get('/template/employeeview', [ManageUserController::class, 'index'])->name('manage.users.index');
 Route::get('/template/add-user', [ManageUserController::class, 'create']);
 Route::post('/template/add-user', [ManageUserController::class,'store']);
+
+Route::get('/template/user-gov-docs', [ManageUserController::class, 'employeeGovDocs']);
+Route::get('/template/user-gov-id', [ManageUserController::class, 'employeeGovId']);
+Route::get('/template/user-com-docs', [ManageUserController::class, 'employeeComDocs']);
+Route::get('/template/user-emergency-contact', [ManageUserController::class, 'employeeEmergencyContact']);

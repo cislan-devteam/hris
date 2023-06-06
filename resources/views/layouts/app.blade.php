@@ -42,26 +42,41 @@
 
     <style>
         input[type=file]::file-selector-button {
-        --tw-bg-opacity: 1;
-        background-color: rgb(147 51 234 / var(--tw-bg-opacity));
-        color: #fff;
-        border: 0px;
-        border-right: 1px solid rgb(147 51 234);
-        padding: 8px 1rem 8px 2rem;
-        font-weight: 500;
-        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 150ms;
-      }
+            --tw-bg-opacity: 1;
+            background-color: rgb(147 51 234 / var(--tw-bg-opacity));
+            color: #fff;
+            border: 0px;
+            border-right: 1px solid rgb(147 51 234);
+            padding: 8px 1rem 8px 2rem;
+            font-weight: 500;
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
 
-      input[type=file]::file-selector-button:hover {
-        background-color: rgb(126 34 206 );
-        border-right: 1px solid rgb(126 34 206 );
-      }
+        input[type=file]::file-selector-button:hover {
+            background-color: rgb(126 34 206 );
+            border-right: 1px solid rgb(126 34 206 );
+        }
 
-      input[type="date"]::-webkit-calendar-picker-indicator {
-        filter: invert(1) brightness(85%);
-      }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) brightness(85%);
+        }
+
+        .hide-message {
+            animation: hideAnimation 0s ease-in 5s;
+            animation-fill-mode: forwards;
+            }
+
+            @keyframes hideAnimation {
+            to {
+                visibility: hidden;
+                width: 0;
+                height: 0;
+                padding: 0;
+                margin: 0;
+            }
+        }
     </style>
     @livewireStyles
 </head>
