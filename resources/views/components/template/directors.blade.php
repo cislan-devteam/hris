@@ -107,7 +107,7 @@
                     @if($director->file_attachment)
                     <img src="{{ '/attachfile/' .$director->file_attachment }}" alt="file_attachment"
                     {{-- <img src="{{ URL('attachfile/', [$leave->file_attachment]) }}" alt="{{ $leave->file_attachment }}" --}}
-                    class="h-full w-full object-cover object-center">
+                    class="relative w-auto h-80 object-cover object-center rounded-lg">
                     @else
                     {{-- <p>No image found</p> --}}
                         <div class="flex items-center justify-center w-full">

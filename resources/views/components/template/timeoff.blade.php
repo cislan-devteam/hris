@@ -89,7 +89,8 @@
                @endif
               </td>
               <td class="px-4 py-3">
-                <div class="flex items-center space-x-2 text-sm">
+                <div class="flex items-center space-x-2 text-sm"
+                    x-data=>
 
                     <a href={{ route('timeoff.shows', $timeoff->id) }}>
                         <button
@@ -108,19 +109,25 @@
                         </button>
                     </a>
 
-                    <form method="POST" action={{ route('timeoff.destroy', $timeoff->id) }}>
+                    @include('components.template.delete')
+                    {{-- <form method="POST" action={{ route('timeoff.destroy', $timeoff->id) }}>
                     @csrf
                     @method('DELETE')
-
+                    <div x-data>
                         <button
-                            onclick="return confirm('Are you sure you want to delete this request?')"
+                        @click="openModal"
+                        class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 border border-transparent rounded-lg
+                        hover:bg-purple-700 "
+
+                        onclick="return confirm('Are you sure you want to delete this request?')"
                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400
                             focus:outline-none focus:shadow-outline-gray"
                             aria-label="Delete"
                             >
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
-                    </form>
+                    </div>
+                    </form> --}}
 
                     <a href={{ route('directors.edit', $timeoff->id) }}>
                         <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400
