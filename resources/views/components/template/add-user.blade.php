@@ -22,23 +22,7 @@
 </div> --}}
 
 {{-- Error Message --}}
-@if ($errors->any())
-<div class="submission-fail-message items-center flex justify-between p-4 mb-8 text-sm font-semibold
-            text-purple-100 bg-red-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red">
-    <div>
-        <i class="fa-sharp fa-solid fa-circle-exclamation fa-lg mr-2" style="color: #ffffff;"></i>
-            <span>Something went wrong. Please check and try again. </span>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li class="p-1 text-sm font-semibold text-purple-100
-                bg-red-600 rounded-lg  focus:outline-none focus:shadow-outline-red list-none"
-                onclick="this.parentElement.style.display = 'none'";>
-                {{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-</div>
-@endif
+@include('components.template.error_message')
 
 <form method="POST" action={{ url('/template/add-user') }} class="mb-8" id="add-user-form" enctype="multipart/form-data">
     @csrf
@@ -56,6 +40,7 @@
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 id="pfp-file-upload" accept="image/png, image/jpg, image/jpeg" name="profile_picture" type="file" :value="('profile_picture')"
                 />
+            <p class="text-gray-400 text-xs dark:text-gray-500"> PNG,JPG or JPEG (MAX 10MB)</p>
             <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                 Please select a file.
             </span>
@@ -95,14 +80,14 @@
                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     id="phoneNumber" placeholder="0000000000" maxlength="10" name="contact_number" type="number" :value="('contact_number')" required/>
                 </div>
-                <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
-                    Phone number is invalid.
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    Insert 10 digit
                 </span>
             </div>
         </div>
 
         <!-- Present Address -->
-        <label class="block mt-4 text-sm">
+        <label class="block text-sm">
             <span class="text-gray-700 dark:text-gray-400">Present Address</span>
             <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
@@ -118,12 +103,12 @@
                 placeholder="Permanent Address" id="addressPermanent" name="address2" type="text" :value="('address2')" required/>
         </label>
 
-        {{-- <label class="flex items-center dark:text-gray-400 text-sm mt-4">
-            <input class="text-purple-600 form-checkbox focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600"
+        <label class="flex items-center dark:text-gray-400 text-sm mt-4">
+            <input class="text-purple-600 rounded form-checkbox focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600"
                 id="addressCheck"name="" type="checkbox" value="address1"/>
             <span class="ml-2"> Same as Present Address
             </span>
-        </label> --}}
+        </label>
 
         <!-- Birthday and Birth Place -->
         <div class="grid md:grid-cols-2 gap-4 mt-4">
@@ -400,6 +385,9 @@
                         [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         id="tin" placeholder="000000000000" maxlength="12" name="tin" type="number" :value="('tin')"/>
                 </label>
+                <span  class="text-gray-400 text-xs dark:text-gray-500">
+                    Insert 15 digit
+                </span>
             </div>
             <div class="z-0 w-full group block text-sm text">
                 <label class="block text-sm">
@@ -410,6 +398,9 @@
                         [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         id="sss" placeholder="0000000000" maxlength="10" name="sss_num" type="number" :value="('sss_num')"/>
                 </label>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    Insert 12 digit
+                </span>
             </div>
         </div>
 
@@ -425,6 +416,9 @@
                         [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         id="pagIbig" placeholder="000000000000"maxlength="12" name="pagibig_num" type="number" :value="('pagibig_num')"/>
                 </label>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    Insert 15 digit
+                </span>
             </div>
             <div class="z-0 w-full group block text-sm text">
                 <label class="block text-sm">
@@ -435,6 +429,9 @@
                         [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         id="philHealth" placeholder="000000000000" maxlength="12" name="philhealth_num" type="number" :value="('philhealth_num')"/>
                 </label>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    Insert 14 digit
+                </span>
             </div>
         </div>
     </div>
@@ -451,6 +448,9 @@
                 <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="image/png, image/jpg, image/jpeg" id="id1-file-upload" name="gov_id1" type="file" :value="('gov_id1')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    JPEG, JPG, PNG or PDF (MAX 10MB)
+                </span>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
@@ -460,6 +460,9 @@
                 <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="image/png, image/jpg, image/jpeg" id="id2-file-upload" name="gov_id2" type="file" :value="('gov_id2')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    JPEG, JPG, PNG or PDF (MAX 10MB)
+                </span>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
@@ -473,6 +476,9 @@
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
                 id="certNB-file-upload" name="nbi_clearance" type="file" :value="('nbi_clearance')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    JPEG, JPG, PNG or PDF (MAX 10MB)
+                </span>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
@@ -512,6 +518,9 @@
                         id="phoneNumberContact" placeholder="0000000000" maxlength="10"
                         name="emergency_contactnum" type="number" :value="('emergency_contactnum')" required/>
                 </div>
+                <span  class="text-gray-400 text-xs dark:text-gray-500">
+                    Insert 10 digit
+                </span>
                 <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
                     Phone number is invalid.
                 </span>
@@ -533,13 +542,16 @@
     </h4>
     <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <!-- CV and TOR/Diploma -->
-        <div class="grid md:grid-cols-2 gap-4">
+        <div class="grid md:grid-cols-2 gap-2">
             <div class="z-0 w-full group block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Upload Curriculum vitae</span>
                 <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300  dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300  form-input"
                 accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
                 id="cv-file-upload" name="file_cv" type="file" :value="('file_cv')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    JPEG, JPG, PNG, DOCS or PDF (MAX 10MB)
+                </span>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.</span>
             </div>
@@ -549,16 +561,22 @@
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
                 id="tor-file-upload" name="file_tor" type="file" :value="('file_tor')"/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    JPEG, JPG, PNG or PDF (MAX 10MB)
+                </span>
             </div>
         </div>
         <!-- Contract and Pledge -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <div class="grid md:grid-cols-2 gap-4 mt-2">
             <div class="z-0 w-full group block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Contract</span>
                 <input class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
                 id="memo-file-upload" name="file_contract" type="file" :value="('file_contract')"/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    PDF or DOCS (MAX 10MB)
+                </span>
             </div>
             <div class="z-0 w-full group block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Pledge</span>
@@ -566,17 +584,23 @@
                 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
                 id="pfpFileUploadne-file-upload" name="file_pledge" type="file" :value="('file_pledge')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    PDF or DOCS (MAX 10MB)
+                </span>
             </div>
         </div>
 
         <!-- Sketch of Residence and Certificate of Clearance from Previous Employer -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <div class="grid md:grid-cols-2 gap-4 mt-2">
             <div class="z-0 w-full group block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Certificate of Clearance from Previous Employer</span>
                 <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
                 id="p-file-upload" name="file_certificate_of_former_employer" type="file" :value="('file_certificate_of_former_employer')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    JPEG, JPG, PNG, DOCS or PDF (MAX 10MB)
+                </span>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
@@ -588,19 +612,25 @@
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="image/png, image/jpg, image/jpeg" id="contract-file-upload" name="img_sketch_of_residence"
                 type="file" :value="('img_sketch_of_residence')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    JPEG, JPG, PNG (MAX 10MB)
+                </span>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
             </div>
         </div>
         <!-- Laptop Agreement, Memo and Notice to Explain  -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <div class="grid md:grid-cols-2 gap-4 mt-2">
             <div class="z-0 w-full group block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Laptop Agreement</span>
                 <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
                 id="sketch-file-upload" name="file_laptop_agreement" type="file" :value="('file_laptop_agreement')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    PDF or DOCS (MAX 10MB)
+                </span>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
@@ -611,12 +641,15 @@
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" id="certE-file-upload"
                 name="file_memo" type="file" :value="('file_memo')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                    PDF or DOCS (MAX 10MB)
+                </span>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>
             </div>
         </div>
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
+        <div class="grid md:grid-cols-2 gap-4 mt-2">
             <div class="z-0 w-full group block text-sm">
 
                 <span class="text-gray-700 dark:text-gray-400">Notice to Explain</span>
@@ -624,6 +657,9 @@
                 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
                 accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
                 id="sketch-file-upload" name="notice_to_explain" type="file" :value="('notice_to_explain')" required/>
+                <span class="text-gray-400 text-xs dark:text-gray-500">
+                PDF or DOCS (MAX 10MB)
+                </span>
                 <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
                     Please select a file.
                 </span>

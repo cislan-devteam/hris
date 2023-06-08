@@ -24,7 +24,7 @@ class ManageUserController extends Controller
 
             //Personal Info
             'employee_name' => 'required',
-            'profile_picture' => 'required|mimes:jpg,jpeg,png,gif,svg',
+            'profile_picture' => 'required|mimes:jpg,jpeg,png,|max:10240',
             'address2' => 'required|max:255',
             'address1' => 'required|max:255',
             'email_address'=> 'required|email',
@@ -42,9 +42,9 @@ class ManageUserController extends Controller
             'philhealth_num' => 'required|max:14',
 
             //Government Docs
-            'nbi_clearance' => 'required|mimes:jpg,jpeg,png,pdf,docx',
-            'gov_id1' => 'required|mimes:jpg,jpeg,png',
-            'gov_id2' => 'required|mimes:jpg,jpeg,png',
+            'nbi_clearance' => 'required|mimes:jpg,jpeg,png,pdf,docx|max:10240',
+            'gov_id1' => 'required|mimes:jpg,jpeg,png|max:10240',
+            'gov_id2' => 'required|mimes:jpg,jpeg,png|max:10240',
 
             //Emergency Contact Numbers
             'emergency_name' => 'required',
@@ -52,15 +52,15 @@ class ManageUserController extends Controller
             'emergency_relationship' => 'required',
 
             //file upload
-            'file_cv' => 'required|mimes:jpg,jpeg,png,pdf,docx',
-            'file_tor' => 'required|mimes:jpg,jpeg,png,pdf',
-            'file_contract' => 'required|mimes:pdf,docx',
-            'file_pledge' => 'required|mimes:pdf,docx',
-            'file_certificate_of_former_employer' => 'required|mimes:jpg,jpeg,png,pdf,docx',
-            'img_sketch_of_residence' => 'required|mimes:jpg,jpeg,png',
-            'file_laptop_agreement' => 'required|mimes:pdf,docx',
-            'file_memo' => 'mimes:pdf,docx',
-            'notice_to_explain' => 'mimes:pdf,docx'
+            'file_cv' => 'required|mimes:jpg,jpeg,png,pdf,docx|max:10240',
+            'file_tor' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
+            'file_contract' => 'required|mimes:pdf,docx|max:10240',
+            'file_pledge' => 'required|mimes:pdf,docx|max:10240',
+            'file_certificate_of_former_employer' => 'required|mimes:jpg,jpeg,png,pdf,docx|max:10240',
+            'img_sketch_of_residence' => 'required|mimes:jpg,jpeg,png|max:10240',
+            'file_laptop_agreement' => 'required|mimes:pdf,docx|max:10240',
+            'file_memo' => 'mimes:pdf,docx|max:10240',
+            'notice_to_explain' => 'mimes:pdf,docx|max:10240'
         ]);
 
         $user_info = new Employee_information();
