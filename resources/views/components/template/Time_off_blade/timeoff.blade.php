@@ -95,7 +95,7 @@
                     <a href={{ route('timeoff.shows', $timeoff->id) }}>
                         <button
                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400
-                            focus:outline-none focus:shadow-outline-gray"
+                            focus:outline-none focus:shadow-outline-gray hover:bg-purple-100"
                             aria-label="Show">
                             <i class="fa-solid fa-eye"></i>
                         </button>
@@ -103,13 +103,13 @@
                     <a href={{ route('timeoff.edit', $timeoff->id) }}>
                         <button
                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400
-                            focus:outline-none focus:shadow-outline-gray"
+                            focus:outline-none focus:shadow-outline-gray hover:bg-purple-100"
                             aria-label="Edit">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                     </a>
 
-                    @include('components.template.delete')
+                    @include('components.template.Time_off_blade.delete')
                     {{-- <form method="POST" action={{ route('timeoff.destroy', $timeoff->id) }}>
                     @csrf
                     @method('DELETE')
@@ -131,7 +131,7 @@
 
                     <a href={{ route('directors.edit', $timeoff->id) }}>
                         <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400
-                        focus:outline-none focus:shadow-outline-gray"
+                        hover:bg-purple-100 focus:outline-none focus:shadow-outline-gray"
                             aria-label="Directors View">
                             <i class="fa-solid fa-file-signature"></i>
                         </button>

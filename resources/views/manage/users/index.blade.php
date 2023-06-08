@@ -1,5 +1,5 @@
 <x-app-layout>
 
-  <x-template.employeeview />
+  <x-template.employee_info.index />
 
 </x-app-layout>

@@ -4,5 +4,5 @@
             {{ __('Employee Time Off') }}
         </h2>
     </x-slot>
-<x-template.edit-timeoff :$timeoff />
+<x-template.Time_off_blade.edit-timeoff :$timeoff />
 </x-app-layout>

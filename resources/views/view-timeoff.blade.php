@@ -5,6 +5,6 @@
         </h2>
     </x-slot>
 
-    <x-template.show-timeoff :$leave />
+    <x-template.Time_off_blade.show-timeoff :$leave />
 
 </x-app-layout>
