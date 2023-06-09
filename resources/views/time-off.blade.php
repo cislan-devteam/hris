@@ -5,6 +5,6 @@
         </h2>
     </x-slot>
 
-    <x-template.timeoff :$timeoffs />
+    <x-template.Time_off_blade.timeoff :$timeoffs />
 
 </x-app-layout>

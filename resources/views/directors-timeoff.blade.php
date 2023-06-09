@@ -5,6 +5,6 @@
         </h2>
     </x-slot>
 
-    <x-template.directors :$director />
+    <x-template.Time_off_blade.directors :$director />
 
 </x-app-layout>

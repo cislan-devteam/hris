@@ -95,6 +95,7 @@ class TimeOffController extends Controller
             'leave_type'=> 'required',
             'leave_reason' => 'required|max:255',
             'file_attachment'=> 'max:10240|mimes:jpeg,png,jpg,gif'
+
         ]);
 
             $timeoff->employee_name = $request->employee_name;

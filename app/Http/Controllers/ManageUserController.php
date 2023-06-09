@@ -330,6 +330,8 @@ class ManageUserController extends Controller
 
     public function destroy($id)
     {
-        //
+        $employee = Employee_information::findOrFail($id);
+        $employee->delete();
+        return view('manage.users.index');
     }
 }
