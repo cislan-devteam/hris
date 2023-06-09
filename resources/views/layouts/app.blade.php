@@ -62,6 +62,21 @@
       input[type="date"]::-webkit-calendar-picker-indicator {
         filter: invert(1) brightness(85%);
       }
+
+      .hide-message {
+            animation: hideAnimation 0s ease-in 5s;
+            animation-fill-mode: forwards;
+            }
+
+        @keyframes hideAnimation {
+            to {
+                visibility: hidden;
+                width: 0;
+                height: 0;
+                padding: 0;
+                margin: 0;
+            }
+        }
     </style>
     @livewireStyles
 </head>

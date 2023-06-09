@@ -22,660 +22,255 @@
 </div> --}}
 
 {{-- Error Message --}}
-@include('components.template.error_message')
+{{-- @include('components.template.error_message') --}}
 
 <form method="POST" action={{ url('/template/add-user') }} class="mb-8" id="add-user-form" enctype="multipart/form-data">
     @csrf
-        <!-- User Information -->
-    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300 ">
-        Personal Information
-    </h4>
-    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        
+    
+    <div x-data="{ tab: window.location.hash ? window.location.hash.substring(1) : 'personalInfo',
+        errors: {},
+        profilePicture: '',
+        employeeName: '',
+        emailAddress: '',
+        contactNumber: '',
+        addressPresent: '',
+        addressPermanent: '',
+        birthDate: '',
+        birthPlace: '',
+        civilStatus: '',
+        nationality: '',
+        position: '',
+        tinNumber: '',
+        sssNumber: '',
+        pagibigNumber: '',
+        philhealthNumber: '',
+        govID1: '',
+        govID2: '',
+        nbiClearance: '',
+        emergencyName: '',
+        emergencyContactNum: '',
+        emergencyRelationship: '',
+        fileCV: '',
+        fileTOR: '',
+        fileContract: '',
+        filePledge: '',
+        fileCertificate: '',
+        imgSketch: '',
+        fileLaptopAgreement: '',
+        validateField(fieldName, errorMessage) {
+        if (!this[fieldName]) {
+            this.errors[fieldName] = errorMessage;
+        } else {
+            delete this.errors[fieldName];
+        }
 
-        {{-- Profile Picture Upload --}}
-        <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400">Upload Profile Picture</span>
-            <input
-                class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                id="pfp-file-upload" accept="image/png, image/jpg, image/jpeg" name="profile_picture" type="file" :value="('profile_picture')"
-                />
-            <p class="text-gray-400 text-xs dark:text-gray-500"> PNG,JPG or JPEG (MAX 10MB)</p>
-            <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                Please select a file.
-            </span>
-        </label>
+        // Additional validation for the contactNumber field
+            if (fieldName === 'contactNumber') {
+                const contactNumberRegex = /^9\d{9}$/;
+                if (!contactNumberRegex.test(this[fieldName])) {
+                    this.errors[fieldName] = errorMessage;
+                }
+            } else if (fieldName === 'emergencyContactNum') {
+                const emergencyContactNumRegex = /^9\d{9}$/;
+                if (!emergencyContactNumRegex.test(this[fieldName])) {
+                    this.errors[fieldName] = errorMessage;
+                }
+            } else if (fieldName === 'tinNumber') {
+                const tinNumberRegex = /^\d{12}$/;
+                if (!tinNumberRegex.test(this[fieldName])) {
+                    this.errors[fieldName] = errorMessage;
+                }
+            } else if (fieldName === 'sssNumber') {
+                const sssNumberRegex = /^\d{10}$/;
+                if (!sssNumberRegex.test(this[fieldName])) {
+                    this.errors[fieldName] = errorMessage;
+                }
+            } else if (fieldName === 'pagibigNumber') {
+                const pagibigNumberRegex = /^\d{12}$/;
+                if (!pagibigNumberRegex.test(this[fieldName])) {
+                    this.errors[fieldName] = errorMessage;
+                }
+            } else if (fieldName === 'philhealthNumber') {
+                const philhealthNumberRegex = /^\d{12}$/;
+                if (!philhealthNumberRegex.test(this[fieldName])) {
+                    this.errors[fieldName] = errorMessage;
+                }
+            }
 
-        <!-- User Name -->
-        <div class="block mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Full Name</span>
-                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600
-                dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
-                dark:text-gray-300 form-input" placeholder="Full name " id="userFName" name="employee_name" type="text"
-                :value="('employee_name')" required/>
+
+
+        },
+        validateFieldsByTab(tab, fieldValidations) {
+        if (this.tab === tab) {
+            for (const fieldValidation of fieldValidations) {
+            const fieldName = fieldValidation.field;
+            const errorMessage = fieldValidation.errorMessage;
+            this.validateField(fieldName, errorMessage);
+            }
+        }
+        },
+        validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        },
+        validateForm() {
+            this.errors = {};
+        
+            // Define the field validations for each tab
+            const personalInfoValidations = [
+                { field: 'profilePicture', errorMessage: 'Profile picture is required.' },
+                { field: 'employeeName', errorMessage: 'Employee name is required.' },
+                { field: 'emailAddress', errorMessage: 'Invalid email address.' },
+                { field: 'contactNumber', errorMessage: 'Invalid contact number.' },
+                { field: 'addressPresent', errorMessage: 'Present address is required.' },
+                { field: 'addressPermanent', errorMessage: 'Permanent address is required.' },
+                { field: 'birthPlace', errorMessage: 'Birth place is required.' },
+                { field: 'civilStatus', errorMessage: 'Civil status is required.' },
+                { field: 'nationality', errorMessage: 'Nationality is required.' },
+                { field: 'position', errorMessage: 'Position is required.' },
+                
+                // Add validation rules for other fields in the personal information form
+            ];
+        
+            const governmentDocsValidations = [
+                { field: 'tinNumber', errorMessage: 'TIN ID is required.' },
+                { field: 'sssNumber', errorMessage: 'SSS ID number is required.' },
+                { field: 'pagibigNumber', errorMessage: 'Pag-IBIG ID number is required.' },
+                { field: 'philhealthNumber', errorMessage: 'PhilHealth ID number is required.' },
+                { field: 'govID1', errorMessage: 'Government ID is required.' },
+                { field: 'govID2', errorMessage: 'Government ID is required.' },
+                { field: 'nbiClearance', errorMessage: 'NBI Clearance is required.' },
+                // Add validation rules for other fields in the additional information form
+            ];
+
+            const emergencyContactValidations = [
+                { field: 'emergencyName', errorMessage: 'Emergency contact name is required.' },
+                { field: 'emergencyContactNum', errorMessage: 'Invalid contact number.' },
+                { field: 'emergencyRelationship', errorMessage: 'Emergency contact relationship is required.' },
+                // Add validation rules for other fields in the address form
+            ];
+        
+            const companyDocsValidations = [
+                { field: 'fileCV', errorMessage: 'Curriculum Vitae is required.' },
+                { field: 'fileTOR', errorMessage: 'TOR is required.' },
+                { field: 'fileContract', errorMessage: 'Contract is required.' },
+                { field: 'filePledge', errorMessage: 'Pledge is required.' },
+                { field: 'fileCertificate', errorMessage: 'Certificate of Clearance is required.' },
+                { field: 'imgSketch', errorMessage: 'Sketch of Residence is required.' },
+                { field: 'fileLaptopAgreement', errorMessage: 'Laptop Agreement is required.' },
+                // Add validation rules for other fields in the additional information form
+            ];
+        
+            {{-- // Validate the personal information form fields
+            this.validateFieldsByTab('personalInfo', personalInfoValidations);
+        
+            // Validate the address form fields
+            this.validateFieldsByTab('address', addressValidations);
+        
+            // Validate the additional information form fields
+            this.validateFieldsByTab('additionalInfo', additionalInfoValidations); --}}
+        
+            // Perform field validations based on the active tab
+                if (this.tab === 'personalInfo') {
+                this.validateFieldsByTab('personalInfo', personalInfoValidations);
+                } else if (this.tab === 'governmentDocs') {
+                this.validateFieldsByTab('governmentDocs', governmentDocsValidations);
+                } else if (this.tab === 'emergencyContact') {
+                this.validateFieldsByTab('emergencyContact', emergencyContactValidations);
+                } else if (this.tab === 'companyDocs') {
+                this.validateFieldsByTab('companyDocs', companyDocsValidations);
+                }
+
+                // Additional validation for the emailAddress field
+                if (this.emailAddress && !this.validateEmail(this.emailAddress)) {
+                this.errors.emailAddress = 'Invalid email address.';
+                }
+            
+
+            // Check if there are any errors
+            if (Object.keys(this.errors).length > 0) {
+                {{-- const errorDiv = document.getElementById('errorDiv');
+                if (errorDiv) {
+                    errorDiv.classList.remove('hidden');
+                    errorDiv.classList.add('flex');
+                } --}}
+                return false; // Prevent form submission if there are errors
+            }
+        
+            return true; // Allow form submission if there are no errors
+        } 
+    }" id="tab_wrapper">
+
+        {{-- <div class="submission-fail-message items-center justify-between p-4 mb-8 text-sm font-semibold
+            text-purple-100 bg-red-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red hidden"
+            x-show="Object.keys(errors).length > 0"
+            id="errorDiv"
+            x-cloak>
+            <div>
+            <i class="fa-sharp fa-solid fa-circle-exclamation fa-lg mr-2" style="color: #ffffff;"></i>
+            <span>Please fill the required fields.</span>
+
             </div>
-        </div>
-        <!-- Email Address Mobile Number -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <!-- Email Address -->
-            <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Email Address</span>
-                    <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input" placeholder="Email Address"
-                    name="email_address" type="text" :value="('email_address')" required/>
-            </label>
-            {{-- Mobile --}}
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
-                <div class="flex mt-1">
-                <span class="inline-flex items-center px-3 py-0 text-sm  text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600
-                dark:text-gray-400 dark:border-gray-600">+63</span>
-                <input onkeydown="return
-                        /[0-9-]/.test(event.key) || event.key ===
-                        'Backspace' || event.key === 'Delete'"
-                    oninput="formatPhoneNumber(this)"
-                    class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
-                    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                    id="phoneNumber" placeholder="0000000000" maxlength="10" name="contact_number" type="number" :value="('contact_number')" required/>
-                </div>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    Insert 10 digit
+        </div> --}}
+        {{-- Error Message --}}
+        @include('components.template.error_message')
+
+        <!-- The tabs navigation -->
+        <ol class="flex items-center w-full p-3 mb-3 space-x-2 text-sm md:text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4">
+    
+            <li class="flex items-center" :class="{ 'text-purple-600 dark:text-purple-500': tab === 'personalInfo' }">
+                <span class="flex items-center justify-center w-5 h-5 mr-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400" :class="{ 'border-purple-600 dark:border-purple-500': tab === 'personalInfo' }">
+                    1
                 </span>
-            </div>
+                Personal <span class="hidden md:inline-flex md:ml-2 ">Info</span>
+                <svg aria-hidden="true" class="w-4 h-4 ml-2 sm:ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </li>
+            <li class="flex items-center" :class="{ 'text-purple-600 dark:text-purple-500': tab === 'governmentDocs' }">
+                <span class="flex items-center justify-center w-5 h-5 mr-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400" :class="{ 'border-purple-600 dark:border-purple-500': tab === 'governmentDocs' }">
+                    2
+                </span>
+                Government <span class="hidden md:inline-flex md:ml-2"> Documents </span>
+                <svg aria-hidden="true" class="w-4 h-4 ml-2 sm:ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </li>
+            <li class="flex items-center" :class="{ 'text-purple-600 dark:text-purple-500': tab === 'emergencyContact' }">
+                <span class="flex items-center justify-center w-5 h-5 mr-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400" :class="{ 'border-purple-600 dark:border-purple-500': tab === 'emergencyContact' }">
+                    3
+                </span>
+                Emergency <span class="hidden md:inline-flex md:ml-2"> Contact </span>
+                <svg aria-hidden="true" class="w-4 h-4 ml-2 sm:ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </li>
+            <li class="flex items-center" :class="{ 'text-purple-600 dark:text-purple-500': tab === 'companyDocs' }">
+                <span class="flex items-center justify-center w-5 h-5 mr-2 text-xs border border-gray-600 rounded-full shrink-0 dark:border-gray-500"  :class="{ 'border-purple-600 dark:border-purple-500': tab === 'companyDocs' }">
+                    4
+                </span>
+                Company <span class="hidden md:inline-flex md:ml-2"> Documents </span>
+                
+                
+            </li>
+            
+        </ol>
+        
+        <div x-show="tab === 'personalInfo'">
+            @include('components.template.add-user-personalinfo')
         </div>
-
-        <!-- Present Address -->
-        <label class="block text-sm">
-            <span class="text-gray-700 dark:text-gray-400">Present Address</span>
-            <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                placeholder="Present Address" id="addressPresent" name="address1" type="text" :value="('address1')" required/>
-        </label>
-
-        <!-- Permanent Address -->
-        <label class="block mt-4 text-sm">
-            <span class="text-gray-700 dark:text-gray-400">Permanent Address</span>
-
-            <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                placeholder="Permanent Address" id="addressPermanent" name="address2" type="text" :value="('address2')" required/>
-        </label>
-
-        <label class="flex items-center dark:text-gray-400 text-sm mt-4">
-            <input class="text-purple-600 rounded form-checkbox focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600"
-                id="addressCheck"name="" type="checkbox" value="address1"/>
-            <span class="ml-2"> Same as Present Address
-            </span>
-        </label>
-
-        <!-- Birthday and Birth Place -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm text">
-                <span class="text-gray-700 dark:text-gray-400">Birth Date</span>
-                    <div class=" w-full relative ">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2
-                            2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd">
-                            </path></svg>
-                        </div>
-                        <input datepicker datepicker-autohide datepicker-format="yyyy-mm-dd"
-                        class="pl-9 p-2 w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600
-                        dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
-                        dark:text-gray-300 form-input"
-                        placeholder="Select birth date" name="birth_date" type="text" :value="('birth_date')" required>
-                    </div>
-            </div>
-            <!-- Birth Place -->
-            <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Birth Place</span>
-                    <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input" placeholder="Birth Place"
-                    name="birth_place" type="text" :value="('birth_place')" required/>
-            </label>
+        
+        <div x-show="tab === 'governmentDocs'">
+            @include('components.template.add-user-governmentdocs')
         </div>
-        <!-- Civil Status and Nationality -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <label class="block text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">
-                        Civil Status
-                    </span>
-                    <select name="civil_status" id="civil_status" type="text" :value="('civil_status')"
-                        class="block w-full mt-1 text-sm rounded border border-gray-300 dark:text-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700
-                        form-select focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600">
-                        <option></option>
-                        <option>Single</option>
-                        <option>Married</option>
-                        <option>Divorced</option>
-                        <option>Separated</option>
-                        <option>Widower/Widow</option>
-                        <option>Annulled</option>
-                    </select>
-                </label>
-            </div>
-            <div class="z-0 w-full group block text-sm text">
-                <label class="block text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">Nationality</span>
-                    <select name="nationality" id="nationality" type="text" :value="('nationality')"
-                        class="block w-full mt-1 text-sm rounded border border-gray-300 dark:text-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-700
-                        form-select focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600">
-                        <option>
-                        </option>
-                        <option>Afghan</option>
-                        <option>Albanian</option>
-                        <option>Algerian</option>
-                        <option>American</option>
-                        <option>Andorran</option>
-                        <option>Angolan</option>
-                        <option>Antiguans</option>
-                        <option>Argentinean</option>
-                        <option>Armenian</option>
-                        <option>Australian</option>
-                        <option>Austrian</option>
-                        <option>Azerbaijani</option>
-                        <option>Bahamian</option>
-                        <option>Bahraini</option>
-                        <option>Bangladeshi</option>
-                        <option>Barbadian</option>
-                        <option>Barbudans</option>
-                        <option>Batswana</option>
-                        <option>Belarusian</option>
-                        <option>Belgian</option>
-                        <option>Belizean</option>
-                        <option>Beninese</option>
-                        <option>Bhutanese</option>
-                        <option>Bolivian</option>
-                        <option>Bosnian</option>
-                        <option>Brazilian</option>
-                        <option>British</option>
-                        <option>Bruneian</option>
-                        <option>Bulgarian</option>
-                        <option>Burkinabe</option>
-                        <option>Burmese</option>
-                        <option>Burundian</option>
-                        <option>Cambodian</option>
-                        <option>Cameroonian</option>
-                        <option>Canadian</option>
-                        <option>Cape Verdean</option>
-                        <option>Central African</option>
-                        <option>Chadian</option>
-                        <option>Chilean</option>
-                        <option>Chinese</option>
-                        <option>Colombian</option>
-                        <option>Comoran</option>
-                        <option>Congolese</option>
-                        <option>Costa Rican</option>
-                        <option>Croatian</option>
-                        <option>Cuban</option>
-                        <option>Cypriot</option>
-                        <option>Czech</option>
-                        <option>Danish</option>
-                        <option>Djibouti</option>
-                        <option>Dominican</option>
-                        <option>Dutch</option>
-                        <option>East Timorese</option>
-                        <option>Ecuadorean</option>
-                        <option>Egyptian</option>
-                        <option>Emirian</option>
-                        <option>Equatorial Guinean</option>
-                        <option>Eritrean</option>
-                        <option>Estonian</option>
-                        <option>Ethiopian</option>
-                        <option>Fijian</option>
-                        <option>Filipino</option>
-                        <option>Finnish</option>
-                        <option>French</option>
-                        <option>Gabonese</option>
-                        <option>Gambian</option>
-                        <option>Georgian</option>
-                        <option>German</option>
-                        <option>Ghanaian</option>
-                        <option>Greek</option>
-                        <option>Grenadian</option>
-                        <option>Guatemalan</option>
-                        <option>Guinea-Bissauan</option>
-                        <option>Guinean</option>
-                        <option>Guyanese</option>
-                        <option>Haitian</option>
-                        <option>Herzegovinian</option>
-                        <option>Honduran</option>
-                        <option>Hungarian</option>
-                        <option>Icelander</option>
-                        <option>Indian</option>
-                        <option>Indonesian</option>
-                        <option>Iranian</option>
-                        <option>Iraqi</option>
-                        <option>Irish</option>
-                        <option>Israeli</option>
-                        <option>Italian</option>
-                        <option>Ivorian</option>
-                        <option>Jamaican</option>
-                        <option>Japanese</option>
-                        <option>Jordanian</option>
-                        <option>Kazakhstani</option>
-                        <option>Kenyan</option>
-                        <option>Kittian and Nevisian</option>
-                        <option>Kuwaiti</option>
-                        <option>Kyrgyz</option>
-                        <option>Laotian</option>
-                        <option>Latvian</option>
-                        <option>Lebanese</option>
-                        <option>Liberian</option>
-                        <option>Libyan</option>
-                        <option>Liechtensteiner</option>
-                        <option>Lithuanian</option>
-                        <option>Luxembourger</option>
-                        <option>Macedonian</option>
-                        <option>Malagasy</option>
-                        <option>Malawian</option>
-                        <option>Malaysian</option>
-                        <option>Maldivan</option>
-                        <option>Malian</option>
-                        <option>Maltese</option>
-                        <option>Marshallese</option>
-                        <option>Mauritanian</option>
-                        <option>Mauritian</option>
-                        <option>Mexican</option>
-                        <option>Micronesian</option>
-                        <option>Moldovan</option>
-                        <option>Monacan</option>
-                        <option>Mongolian</option>
-                        <option>Moroccan</option>
-                        <option>Mosotho</option>
-                        <option>Motswana</option>
-                        <option>Mozambican</option>
-                        <option>Namibian</option>
-                        <option>Nauruan</option>
-                        <option>Nepalese</option>
-                        <option>New Zealander</option>
-                        <option>Ni-Vanuatu</option>
-                        <option>Nicaraguan</option>
-                        <option>Nigerien</option>
-                        <option>North Korean</option>
-                        <option>Northern Irish</option>
-                        <option>Norwegian</option>
-                        <option>Omani</option>
-                        <option>Pakistani</option>
-                        <option>Palauan</option>
-                        <option>Panamanian</option>
-                        <option>Papua New Guinean</option>
-                        <option>Paraguayan</option>
-                        <option>Peruvian</option>
-                        <option>Polish</option>
-                        <option>Portuguese</option>
-                        <option>Qatari</option>
-                        <option>Romanian</option>
-                        <option>Russian</option>
-                        <option>Rwandan</option>
-                        <option>Saint Lucian</option>
-                        <option>Salvadoran</option>
-                        <option>Samoan</option>
-                        <option>San Marinese</option>
-                        <option>Sao Tomean</option>
-                        <option>Saudi</option>
-                        <option>Scottish</option>
-                        <option>Senegalese</option>
-                        <option>Serbian</option>
-                        <option>Seychellois</option>
-                        <option>Sierra Leonean</option>
-                        <option>Singaporean</option>
-                        <option>Slovakian</option>
-                        <option>Slovenian</option>
-                        <option>Solomon Islander</option>
-                        <option>Somali</option>
-                        <option>South African</option>
-                        <option>South Korean</option>
-                        <option>Spanish</option>
-                        <option>Sri Lankan</option>
-                        <option>Sudanese</option>
-                        <option>Surinamer</option>
-                        <option>Swazi</option>
-                        <option>Swedish</option>
-                        <option>Swiss</option>
-                        <option>Syrian</option>
-                        <option>Taiwanese</option>
-                        <option>Tanzanian</option>
-                        <option>Thai</option>
-                        <option>Togolese</option>
-                        <option>Tongan</option>
-                        <option>Trinidadian or Tobagonian</option>
-                        <option>Tunisian</option>
-                        <option>Turkish</option>
-                        <option>Tuvaluan</option>
-                        <option>Ugandan</option>
-                        <option>Ukrainian</option>
-                        <option>Uruguayan</option>
-                        <option>Uzbekistani</option>
-                        <option>Venezuelan</option>
-                        <option>Vietnamese</option>
-                        <option>Welsh</option>
-                        <option>Yemenite</option>
-                        <option>Zambian</option>
-                        <option>Zimbabwean</option>
-                    </select>
-                </label>
-            </div>
+        
+        <div x-show="tab === 'emergencyContact'">
+            @include('components.template.add-user-emergencycontact')
         </div>
-        <!-- Position -->
-        <label class="block mt-3 text-sm">
-            <span class="text-gray-700 dark:text-gray-400">Position</span>
-            <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-            placeholder="Position" name="position" id="position" type="text" :value="('position')"/>
-        </label>
+        
+        <div x-show="tab === 'companyDocs'">
+            @include('components.template.add-user-companydocs')
+        </div>
+        
+  
     </div>
 
-    <!-- User Government ID Numbers -->
-    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-        Government ID Numbers
-    </h4>
-    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <!-- TIN and SSS -->
-        <div class="grid md:grid-cols-2 gap-4">
-            <div class="z-0 w-full group block text-sm">
-                <label class="block text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">Tax Identification Number</span>
-                    <input onkeydown="return /[0-9-]/.test(event.key) || event.key ===
-                    'Backspace' || event.key === 'Delete'" oninput="formatTIN(this)"
-                        class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:ring-1
-                        focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
-                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                        id="tin" placeholder="000000000000" maxlength="12" name="tin" type="number" :value="('tin')"/>
-                </label>
-                <span  class="text-gray-400 text-xs dark:text-gray-500">
-                    Insert 15 digit
-                </span>
-            </div>
-            <div class="z-0 w-full group block text-sm text">
-                <label class="block text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">SSS Number</span>
-                    <input onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
-                        oninput="formatSSS(this)" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                        focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
-                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                        id="sss" placeholder="0000000000" maxlength="10" name="sss_num" type="number" :value="('sss_num')"/>
-                </label>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    Insert 12 digit
-                </span>
-            </div>
-        </div>
+    
 
-        <!-- Pag-IBIG and PhilHealt -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <label class="block text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">Pag-IBIG Number</span>
-                    <input onkeydown="return /[0-9-]/.test(event.key) || event.key ===
-                    'Backspace' || event.key === 'Delete'" oninput="formatPagIbig(this)"
-                        class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
-                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                        id="pagIbig" placeholder="000000000000"maxlength="12" name="pagibig_num" type="number" :value="('pagibig_num')"/>
-                </label>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    Insert 15 digit
-                </span>
-            </div>
-            <div class="z-0 w-full group block text-sm text">
-                <label class="block text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">PhilHealth Number</span>
-                    <input onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
-                        oninput="formatPhilHealth(this)" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                        focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
-                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                        id="philHealth" placeholder="000000000000" maxlength="12" name="philhealth_num" type="number" :value="('philhealth_num')"/>
-                </label>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    Insert 14 digit
-                </span>
-            </div>
-        </div>
-    </div>
-    <!-- User Required File Uploads -->
-    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-        Government Documents
-    </h4>
-    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <p class="mt-2 pb-2 text-sm text-gray-700 dark:text-gray-400">Add two government ID</p>
-        <!-- Valid IDs -->
-        <div class="mt-2 grid md:grid-cols-2 gap-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Government ID 1</span>
-                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="image/png, image/jpg, image/jpeg" id="id1-file-upload" name="gov_id1" type="file" :value="('gov_id1')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    JPEG, JPG, PNG or PDF (MAX 10MB)
-                </span>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Government ID 2</span>
-                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="image/png, image/jpg, image/jpeg" id="id2-file-upload" name="gov_id2" type="file" :value="('gov_id2')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    JPEG, JPG, PNG or PDF (MAX 10MB)
-                </span>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-        </div>
-        <!-- NBI/Barangay Clearance and Certificate of Clearance from Previous Employer -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">NBI/Barangay Clearance</span>
-                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                id="certNB-file-upload" name="nbi_clearance" type="file" :value="('nbi_clearance')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    JPEG, JPG, PNG or PDF (MAX 10MB)
-                </span>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-        </div>
-    </div>
-
-    <!-- User Emergency Contact -->
-    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-        Emergency Contact
-    </h4>
-    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <!-- Contact Name -->
-        <div class="">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Full Name</span>
-                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                    placeholder="Full Name" name="emergency_name" type="text" :value="('emergency_name')"/>
-            </div>
-        </div>
-
-        <!-- Mobile Number and Relationship -->
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
-                <div class="flex mt-1">
-                    <span class="inline-flex items-center px-3 py-0 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md
-                    dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600"
-                        >+63</span>
-                    <input
-                    onkeydown="return /[0-9-]/.test(event.key) || event.key ===
-                        'Backspace' || event.key === 'Delete'" oninput="formatPhoneNumber(this)"
-                        class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
-                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                        id="phoneNumberContact" placeholder="0000000000" maxlength="10"
-                        name="emergency_contactnum" type="number" :value="('emergency_contactnum')" required/>
-                </div>
-                <span  class="text-gray-400 text-xs dark:text-gray-500">
-                    Insert 10 digit
-                </span>
-                <span id="pfp-error-message" class="hidden text-xs text-red-600 dark:text-red-400">
-                    Phone number is invalid.
-                </span>
-            </div>
-            <div class="z-0 w-full group block text-sm text">
-                <label class="block text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">Relationship</span>
-                    <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                        placeholder="Relationship" name="emergency_relationship" type="text" :value="('emergency_relationship')"/>
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <!-- User File Uploads -->
-    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-        Company Documents
-    </h4>
-    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <!-- CV and TOR/Diploma -->
-        <div class="grid md:grid-cols-2 gap-2">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Upload Curriculum vitae</span>
-                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300  dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300  form-input"
-                accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                id="cv-file-upload" name="file_cv" type="file" :value="('file_cv')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    JPEG, JPG, PNG, DOCS or PDF (MAX 10MB)
-                </span>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.</span>
-            </div>
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Upload Transcript of Record/Diploma</span>
-                <input  class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                id="tor-file-upload" name="file_tor" type="file" :value="('file_tor')"/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    JPEG, JPG, PNG or PDF (MAX 10MB)
-                </span>
-            </div>
-        </div>
-        <!-- Contract and Pledge -->
-        <div class="grid md:grid-cols-2 gap-4 mt-2">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Contract</span>
-                <input class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                id="memo-file-upload" name="file_contract" type="file" :value="('file_contract')"/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    PDF or DOCS (MAX 10MB)
-                </span>
-            </div>
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Pledge</span>
-                <input class="block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                id="pfpFileUploadne-file-upload" name="file_pledge" type="file" :value="('file_pledge')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    PDF or DOCS (MAX 10MB)
-                </span>
-            </div>
-        </div>
-
-        <!-- Sketch of Residence and Certificate of Clearance from Previous Employer -->
-        <div class="grid md:grid-cols-2 gap-4 mt-2">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Certificate of Clearance from Previous Employer</span>
-                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="image/png, image/jpg, image/jpeg , application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                id="p-file-upload" name="file_certificate_of_former_employer" type="file" :value="('file_certificate_of_former_employer')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    JPEG, JPG, PNG, DOCS or PDF (MAX 10MB)
-                </span>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Sketch of Residence</span>
-
-                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="image/png, image/jpg, image/jpeg" id="contract-file-upload" name="img_sketch_of_residence"
-                type="file" :value="('img_sketch_of_residence')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    JPEG, JPG, PNG (MAX 10MB)
-                </span>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-        </div>
-        <!-- Laptop Agreement, Memo and Notice to Explain  -->
-        <div class="grid md:grid-cols-2 gap-4 mt-2">
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Laptop Agreement</span>
-                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                id="sketch-file-upload" name="file_laptop_agreement" type="file" :value="('file_laptop_agreement')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    PDF or DOCS (MAX 10MB)
-                </span>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-            <div class="z-0 w-full group block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Memo</span>
-                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" id="certE-file-upload"
-                name="file_memo" type="file" :value="('file_memo')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                    PDF or DOCS (MAX 10MB)
-                </span>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-        </div>
-        <div class="grid md:grid-cols-2 gap-4 mt-2">
-            <div class="z-0 w-full group block text-sm">
-
-                <span class="text-gray-700 dark:text-gray-400">Notice to Explain</span>
-                <input class="file-upload block w-full mt-1 text-sm p-0 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input"
-                accept="application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                id="sketch-file-upload" name="notice_to_explain" type="file" :value="('notice_to_explain')" required/>
-                <span class="text-gray-400 text-xs dark:text-gray-500">
-                PDF or DOCS (MAX 10MB)
-                </span>
-                <span id="pfp-error-message" class="error error-message hidden text-xs text-red-600 dark:text-red-400">
-                    Please select a file.
-                </span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Save and Cancel Buttons -->
-    <div class="container px-5 mx-auto flex justify-end gap-4">
-        <button id="submit-button" type="submit" class="px-6 py-2 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600
-        rounded-md focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 hover:bg-purple-700">
-            Save
-        </button>
-        <a href="/dashboard" class="px-6 py-2 text-gray-600 rounded-md focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
-        border dark:border-gray-600">
-        Cancel
-        </a>
-    </div>
+    
 </form>
