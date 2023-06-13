@@ -27,6 +27,7 @@
               <!-- Theme toggler -->
               <li class="flex">
                 <button class="rounded-md focus:outline-none focus:shadow-outline-purple"
+                  x-data="{ dark: getThemeFromLocalStorage() }"
                   @click="toggleTheme"
                   aria-label="Toggle color mode">
                   <template x-if="!dark">
