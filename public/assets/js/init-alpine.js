@@ -1,3 +1,20 @@
+function loadPage(url) {
+  fetch(url)
+      .then(response => response.text())
+      .then(data => {
+          document.getElementById('page-container').innerHTML = data;
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+}
+
+window.addEventListener('popstate', function(event) {
+  loadPage(window.location.href);
+});
+
+loadPage(window.location.href);
+
 function data() {
   function getThemeFromLocalStorage() {
     // if user already changed the theme, use it

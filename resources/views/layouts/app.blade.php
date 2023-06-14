@@ -66,6 +66,10 @@
       input[type="date"]::-webkit-calendar-picker-indicator {
         filter: invert(1) brightness(85%);
       }
+
+      .sidenav .hidden.active {
+        display: block;
+    }
     </style>
     @livewireStyles
 </head>
@@ -74,6 +78,7 @@
 
     <div class="flex w-full bg-gray-50 dark:bg-gray-900"
         :class="{ 'overflow-hidden': isSideMenuOpen }"
+         id="page-container"
         >
 
         @include('layouts.master-components.master-sidenav')
