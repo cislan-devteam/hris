@@ -45,6 +45,9 @@ Route::get('/tasks', [UserProfile::class, 'index'])->name('tasks');
 Route::get('/add-user', [UserProfile::class, 'create']);
 Route::post('/add-user', [UserProfile::class, 'store']);
 
+Route::get('/user/profile', [UserProfile::class, 'displayInfo'])->name('profile.show');
+Route::post('/user/profile', [UserProfile::class, 'updateInfo'])->name('profile.update');
+
 Route::get('/tasks/{id}', [UserProfile::class, 'show'])->name('tasks.show');
 Route::get('/tasks/{id}/edit', [UserProfile::class, 'edit'])->name('tasks.edit');
 Route::put('/tasks/{id}/edit', [UserProfile::class, 'update'])->name('tasks.update');
