@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.4.2/dist/alpine.js" defer></script>
+
     <h2 class="my-6 text-4xl font-semibold text-gray-900 dark:text-gray-200">Profile</h2>
 
     <div class="relative flex flex-col flex-auto min-w-0 p-4 mx-3 overflow-hidden break-words
@@ -12,6 +14,7 @@
       <div class="flex flex-wrap -mx-3">
         <div class="flex-none w-auto max-w-full px-3">
           <div class="relative inline-flex items-center justify-center text-white transition-all duration-200 ease-in-out text-base h-19 w-19 rounded-xl">
+            
             <img src="../assets/img/iu.jpg" alt="profile_image" class="rounded-full h-20 w-20" />
 
             {{-- Button to change the image --}}
@@ -36,7 +39,6 @@
                 handleFileSelect,
               };
             </script>
-
           </div>
         </div>
         <div class="flex-none w-auto max-w-full px-0 my-auto">
@@ -47,11 +49,12 @@
         </div>
       </div>
 
-    <form method="POST" action="{{ route('profile.update') }}">
+        <form method="POST" action="{{ route('profile.update') }}">
         @csrf
-        <button type="submit" class="px-4 py-2 mb-2 ml-auto display: flex font-bold leading-normal text-center text-white align-middle
-                transition-all ease-in bg-purple-600 border-0 rounded-lg shadow-md cursor-pointer text-xs tracking-tight-rem hover:shadow-xs
-                hover:-translate-y-px active:opacity-85">Edit</button>
+            <button id="editBtn" onclick="toggleEdit()" class="px-4 py-2 mb-2 ml-auto display: flex font-bold leading-normal text-center text-white align-middle
+            transition-all ease-in bg-purple-600 border-0 rounded-lg shadow-md cursor-pointer text-xs tracking-tight-rem hover:shadow-xs
+            hover:-translate-y-px active:opacity-85">Edit Profile</button>
+        
 
         <h4 class="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-300 ">
             Personal Information
@@ -75,9 +78,9 @@
                         <!-- Email Address -->
                         <label class="inline text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Email Address</span>
-                                <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input" placeholder="{{ $info->email_address }}"
-                                name="email_address" type="email" :value="{{ $info->email_address }}" required/>
+                            <input id="emailInput" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input"
+                            name="email_address" type="text" value="{{ $info['email_address'] ?? '' }}" readonly required/>
                         </label>
                         {{-- Mobile --}}
                         <div class="z-0 w-full group block text-sm">
@@ -85,14 +88,12 @@
                             <div class="flex mt-1">
                                 <span class="inline-flex items-center px-3 py-0 text-sm  text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600
                                 dark:text-gray-400 dark:border-gray-600">+63</span>
-                                <input onkeydown="return
-                                        /[0-9-]/.test(event.key) || event.key ===
-                                        'Backspace' || event.key === 'Delete'"
-                                    oninput="formatPhoneNumber(this)"
-                                    class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                                    focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
-                                    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                    id="phoneNumber" placeholder="{{ $info->contact_number }}" maxlength="10" name="contact_number" type="number" :value="" required/>
+                                <input onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
+                                oninput="formatPhoneNumber(this)" class="phone-input block w-full text-sm rounded-r border border-gray-300
+                                dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200
+                                dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
+                                [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                id="phoneNumber" maxlength="10" name="contact_number" type="number" value="{{ $info['contact_number'] ?? '' }}" readonly required/>
                             </div>
                         </div>
                     </div>
@@ -173,7 +174,7 @@
                                 <p onkeydown="return /[0-9-]/.test(event.key) || event.key ===
                                 'Backspace' || event.key === 'Delete'" oninput="formatTIN(this)"
                                     class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:ring-1
-                                    focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300
+                                    focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300
                                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     id="tin" placeholder="000000000000" maxlength="12" name="tin" type="number" :value="">{{ $info->tin }}
                                 </p>
@@ -184,7 +185,7 @@
                                 <span class="text-gray-700 dark:text-gray-400">SSS Number</span>
                                 <p onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
                                     oninput="formatSSS(this)" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                                    focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
+                                    focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
                                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     id="sss" placeholder="0000000000" maxlength="10" name="sss_num" type="number" :value="">{{ $info->sss_num }}
                                 </p>
@@ -199,7 +200,7 @@
                             <p onkeydown="return /[0-9-]/.test(event.key) || event.key ===
                             'Backspace' || event.key === 'Delete'" oninput="formatPagIbig(this)"
                                 class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
+                                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 id="pagIbig" placeholder="000000000000"maxlength="12" name="pagibig_num" type="number" :value="">{{ $info->pagibig_num }}
                             </p>
@@ -210,7 +211,7 @@
                             <span class="text-gray-700 dark:text-gray-400">PhilHealth Number</span>
                             <p onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
                                 oninput="formatPhilHealth(this)" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 dark:text-gray-300 form-input
+                                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 id="philHealth" placeholder="000000000000" maxlength="12" name="philhealth_num" type="number" :value="('philhealth_num')">{{ $info->philhealth_num }}
                             </p>
@@ -228,9 +229,9 @@
                 <div class="">
                     <div class="z-0 w-full group block text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Full Name</span>
-                        <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                        <input id="emergencyNameInput" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                         focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input"
-                            placeholder="{{ $info->emergency_name }}" name="emergency_name" type="text" :value="">
+                        name="emergency_name" type="text" value="{{ $info['emergency_name'] ?? '' }}" readonly required/>
                     </div>
                 </div>
 
@@ -242,31 +243,101 @@
                             <span class="inline-flex items-center px-3 py-0 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md
                             dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600"
                                 >+63</span>
-                            <input
-                            onkeydown="return /[0-9-]/.test(event.key) || event.key ===
-                                'Backspace' || event.key === 'Delete'" oninput="formatPhoneNumber(this)"
-                                class="phone-input block w-full text-sm rounded-r border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
+                                <input onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
+                                oninput="formatPhoneNumber(this)" class="phone-input block w-full text-sm rounded-r border border-gray-300
+                                dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200
+                                dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                id="phoneNumberContact" maxlength="10"
-                                name="emergency_contactnum" placeholder="{{ $info->emergency_contactnum }}" type="number" :value=""/> 
+                                id="phoneNumberContact" maxlength="10" name="emergency_contactnum" type="number" value="{{ $info['emergency_contactnum'] ?? '' }}" readonly required/>
                         </div>
                     </div>
                     <div class="z-0 w-full group block text-sm text">
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Relationship</span>
-                            <input class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
+                            <input id="emergencyRelationshipInput" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
                             focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input"
-                            name="emergency_relationship" placeholder="{{ $info->emergency_relationship }}" type="text" :value=""/>
+                            name="emergency_relationship" type="text" value="{{ $info['emergency_relationship'] ?? '' }}" readonly required/>
                         </label>
                     </div>
                 </div>
             </div>
         @endforeach
     </form>
+    <script>
+        var emailInput = document.getElementById('emailInput');
+        var phoneNumberInput = document.getElementById('phoneNumber');
+        var emergencyNameInput = document.getElementById('emergencyNameInput');
+        var phoneNumberContact = document.getElementById('phoneNumberContact');
+        var emergencyRelationshipInput = document.getElementById('emergencyRelationshipInput');
+        var editBtn = document.getElementById('editBtn');
+        var emailKey = 'emailAddress';
+        var phoneNumberKey = 'phoneNumber';
+        var emergencyNameKey = 'emergencyName';
+        var phoneNumberContactKey = 'phoneNumberContact';
+        var emergencyRelationshipKey = 'emergencyRelationship';
+        // Retrieve the email address, phone number, and emergency name from local storage
+        var storedEmail = localStorage.getItem(emailKey);
+        var storedPhoneNumber = localStorage.getItem(phoneNumberKey);
+        var storedEmergencyName = localStorage.getItem(emergencyNameKey);
+        var storedPhoneNumberContact = localStorage.getItem(phoneNumberContactKey);
+        var storedEmergencyRelationship = localStorage.getItem(emergencyRelationshipInputKey);
+        if (storedEmail) {
+          emailInput.value = storedEmail;
+        }
+        if (storedPhoneNumber) {
+          phoneNumberInput.value = storedPhoneNumber;
+        }
+        if (storedEmergencyName) {
+          emergencyNameInput.value = storedEmergencyName;
+        }
+        if (storedphoneNumberContact) {
+            phoneNumberContact.value = storedphoneNumberContact;
+        }
+        if (storedEmergencyRelationship) {
+            emergencyRelationshipInput.value = storedEmergencyRelationship;
+        }
+      
+        function toggleEdit() {
+          if (emailInput.readOnly) {
+            emailInput.readOnly = false;
+            phoneNumberInput.readOnly = false;
+            emergencyNameInput.readOnly = false;
+            phoneNumberContact.readOnly = false;
+            emergencyRelationshipInput.readOnly = false;
+            emailInput.value = '';
+            phoneNumberInput.value = '';
+            emergencyNameInput.value = '';
+            phoneNumberContact.value = '';
+            emergencyRelationshipInput.value = '';
+            editBtn.textContent = 'Save Changes';
+          } else {
+
+            if (!emailInput.value || !phoneNumberInput.value || !emergencyNameInput.value
+                || !phoneNumberContact.value || !emergencyRelationshipInput.value)
+                {
+                    // Display a message indicating that all fields are required
+                    alert('Please fill in all the required fields.');
+                    return;
+      }
+
+            emailInput.readOnly = true;
+            phoneNumberInput.readOnly = true;
+            emergencyNameInput.readOnly = true;
+            phoneNumberContact.readOnly = true;
+            emergencyRelationshipInput.readOnly = true;
+            editBtn.textContent = 'Edit Profile';
+            // Save the updated email address, phone number, and emergency contact to local storage
+            localStorage.setItem(emailKey, emailInput.value);
+            localStorage.setItem(phoneNumberKey, phoneNumberInput.value);
+            localStorage.setItem(emergencyNameKey, emergencyNameInput.value);
+            localStorage.setItem(phoneNumberContactKey, phoneNumberContact.value);
+            localStorage.setItem(emergencyRelationshipKey, emergencyRelationshipInput.value);
+          }
+        }
+      </script>
+    </div>
 
 </x-app-layout>
-
     {{-- <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
