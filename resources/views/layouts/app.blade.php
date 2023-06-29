@@ -1,5 +1,62 @@
 <!DOCTYPE html>
-<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+<html  :class="{ 'theme-dark': dark }" x-data="{
+    dark: (() => {
+      function getThemeFromLocalStorage() {
+        if (window.localStorage.getItem('dark')) {
+          return JSON.parse(window.localStorage.getItem('dark'));
+        }
+        return (
+          !!window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        );
+      }
+
+      function setThemeToLocalStorage(value) {
+        window.localStorage.setItem('dark', value);
+      }
+
+      return getThemeFromLocalStorage();
+    })(),
+    toggleTheme() {
+      this.dark = !this.dark;
+      window.localStorage.setItem('dark', JSON.stringify(this.dark));
+    },
+    isSideMenuOpen: false,
+    toggleSideMenu() {
+      this.isSideMenuOpen = !this.isSideMenuOpen;
+    },
+    closeSideMenu() {
+      this.isSideMenuOpen = false;
+    },
+    isNotificationsMenuOpen: false,
+    toggleNotificationsMenu() {
+      this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen;
+    },
+    closeNotificationsMenu() {
+      this.isNotificationsMenuOpen = false;
+    },
+    isProfileMenuOpen: false,
+    toggleProfileMenu() {
+      this.isProfileMenuOpen = !this.isProfileMenuOpen;
+    },
+    closeProfileMenu() {
+      this.isProfileMenuOpen = false;
+    },
+    isPagesMenuOpen: false,
+    togglePagesMenu() {
+      this.isPagesMenuOpen = !this.isPagesMenuOpen;
+    },
+    isModalOpen: false,
+    trapCleanup: null,
+    openModal() {
+      this.isModalOpen = true;
+      this.trapCleanup = focusTrap(document.querySelector('#modal'));
+    },
+    closeModal() {
+      this.isModalOpen = false;
+      this.trapCleanup();
+    }
+  }" lang="en" :class="dark ? 'dark:bg-gray-800' : 'bg-white'">
 
 <head>
     <meta charset="utf-8">
@@ -8,72 +65,25 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"/>
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+        
+    @vite(['resources/css/app.css'])
+    <link rel="preload" href="{{ asset('assets/css/tailwind.output.css') }}" as="style">
     <link rel="stylesheet" href="{{ asset('assets/css/tailwind.output.css') }}">
-    <script src="{{ asset('assets/js/init-alpine.js') }}"></script>
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
     ></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css"  rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/datepicker.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.3.x/dist/index.js"></script>
-    
-{{-- 
-    <link rel="stylesheet" href="../../css/tailwind.output.css" />
-    <script src="../../js/init-alpine.js"></script> --}}
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"
-    />
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
-        defer
-    ></script>
-    <!-- Styles -->
-
-    <style>
-        input[type=file]::file-selector-button {
-        --tw-bg-opacity: 1;
-        background-color: rgb(147 51 234 / var(--tw-bg-opacity));
-        color: #fff;
-        border: 0px;
-        border-right: 1px solid rgb(147 51 234);
-        padding: 8px 1rem 8px 2rem;
-        font-weight: 500;
-        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 150ms;
-      }
-
-      input[type=file]::file-selector-button:hover {
-        background-color: rgb(126 34 206 );
-        border-right: 1px solid rgb(126 34 206 );
-      }
-
-      input[type="date"]::-webkit-calendar-picker-indicator {
-        filter: invert(1) brightness(85%);
-      }
-    </style>
-    @livewireStyles
 </head>
 
-<body>
+<body  id="app" style="display: none;">
 
     <div class="flex w-full bg-gray-50 dark:bg-gray-900"
-        :class="{ 'overflow-hidden': isSideMenuOpen }"
+        {{-- :class="{ 'overflow-hidden': isSideMenuOpen }" --}}
+        
         >
 
         @include('layouts.master-components.master-sidenav')
@@ -91,7 +101,11 @@
         </div>
     </div>
 
-   
+    <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+          document.getElementById('app').style.display = 'block';
+      });
+    </script>
 
 
 </body>
