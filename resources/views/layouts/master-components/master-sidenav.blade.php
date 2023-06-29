@@ -7,6 +7,8 @@
       <img class="ml-4" src="https://www.devteam.com/wp-content/uploads/2018/06/devteam-logo.svg">
     </a>
     <ul class="mt-6">
+
+      {{-- Dashboard --}}
       <li class="relative px-6 py-3" x-data="{ isActive: window.location.pathname.startsWith('/dashboard') }" >
         <span x-show="isActive" x-cloak class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"></span>
         <a x-bind:class="{'text-gray-700 dark:text-white': isActive}" class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150
@@ -22,6 +24,8 @@
           </span>
         </a>
       </li>
+
+      {{-- Role Assignment --}}
       <li class="relative px-6 py-3" x-data="{ isActive: window.location.pathname.startsWith('/tasks') }" >
         <span x-show="isActive" x-cloak class=" absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"></span>
         <a x-bind:class="{'text-gray-700 dark:text-white': isActive}" class="inline-flex items-center w-full text-sm font-semibold transition-colors durtion-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -37,6 +41,8 @@
           </span>
         </a>
       </li>
+
+      {{-- Time Off --}}
       <li class="relative px-6 py-3" x-data="{ isActive: window.location.pathname.startsWith('/timeoff') }">
         <span x-show="isActive" x-cloak
           class=" absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg "></span>
@@ -51,6 +57,8 @@
           </span>
         </a>
       </li>
+
+      {{-- ClockIt --}}
       <li class="relative px-6 py-3" x-data="{ isActive: window.location.pathname.startsWith('/clockit') }">
         <span x-show="isActive" x-cloak class=" absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg "></span>
         <a x-bind:class="{'text-gray-700 dark:text-white': isActive}" class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 "
@@ -64,6 +72,8 @@
           </span>
         </a>
       </li>
+
+      {{-- Employee Information --}}
       <li class="relative px-6 py-3" x-data="{ isActive: window.location.pathname.startsWith('/template/employeeview') }">
           <span x-show="isActive" x-cloak class=" absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg "></span>
           <a x-bind:class="{'text-gray-700 dark:text-white': isActive}" class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"

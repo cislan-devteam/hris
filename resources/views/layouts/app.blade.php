@@ -65,6 +65,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    {{-- Links --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -73,6 +74,7 @@
     <link rel="preload" href="{{ asset('assets/css/tailwind.output.css') }}" as="style">
     <link rel="stylesheet" href="{{ asset('assets/css/tailwind.output.css') }}">
 
+    {{-- Scripts --}}
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
@@ -83,16 +85,20 @@
 
     <div class="flex w-full bg-gray-50 dark:bg-gray-900"
         {{-- :class="{ 'overflow-hidden': isSideMenuOpen }" --}}
-        
         >
 
+        {{-- Side Navigation --}}
         @include('layouts.master-components.master-sidenav')
 
         <!-- Page Content -->
         <div class="flex flex-col flex-1 w-full h-screen">
             <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+
+              {{-- Header --}}
                 @include('layouts.master-components.master-header-file')
             </header>
+            
+            {{-- Main Content --}}
             <main class="h-full overflow-y-auto">
                 <div class="container px-6 mx-auto grid">
                     {{ $slot }}
