@@ -7,7 +7,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.4.2/dist/alpine.js" defer></script>
 
-    <h2 class="my-6 text-4xl font-semibold text-gray-900 dark:text-gray-200">Profile</h2>
+    <h2 class="my-6 text-4xl font-semibold text-gray-700 dark:text-gray-200 ">Profile</h2>
 
     <div class="relative flex flex-col flex-auto min-w-0 p-4 mx-3 overflow-hidden break-words
     bg-transparent border-0 dark:bg-slate-850 dark:shadow-dark-xl shadow-3xl rounded-2xl bg-clip-border">
@@ -18,7 +18,7 @@
             <img src="../assets/img/iu.jpg" alt="profile_image" class="rounded-full h-20 w-20" />
 
             {{-- Button to change the image --}}
-            <label class="mt-11 -ml-4 text-gray-800 dark:text-white dark:opacity-60 cursor-pointer" x-data="{ fileInput: null }">
+            <label class="mt-11 -ml-4 text-gray-700 dark:text-white dark:opacity-60 cursor-pointer" x-data="{ fileInput: null }">
               <input type="file" x-ref="fileInput" style="display: none;" accept="image/jpeg, image/png" @change="handleFileSelect">
             
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -43,8 +43,8 @@
         </div>
         <div class="flex-none w-auto max-w-full px-0 my-auto">
           <div class="h-full">
-            <h5 class="mb-1 -mt-3 text-gray-900 dark:text-white text-2xl">IU</h5>
-            <p class="mb-0 font-semibold leading-normal text-gray-800 dark:text-white dark:opacity-60">Super Admin</p>
+            <h5 class="mb-1 -mt-3 text-gray-700 dark:text-white text-2xl">IU</h5>
+            <p class="mb-0 font-semibold leading-normal text-gray-700 dark:text-white dark:opacity-60">Super Admin</p>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@
             hover:-translate-y-px active:opacity-85">Edit Profile</button>
         
 
-        <h4 class="mb-2 text-lg font-semibold text-gray-900 dark:text-gray-300 ">
+        <h4 class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300 ">
             Personal Information
         </h4>
         @foreach ($infos as $info)
@@ -66,9 +66,9 @@
                     <div class="inline mt-4">
                         <div class="z-0 w-full group block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Full Name</span>
-                            <p class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600
+                            <p class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white
                             dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
-                            text-gray-900 dark:text-gray-300" placeholder="Full Name " id="userFName" name="employee_name" type="text"
+                            dark:text-gray-300 text-gray-700" placeholder="Full Name " id="userFName" name="employee_name" type="text"
                             :value="">{{ $info->employee_name }}
                             </p>
                         </div>
@@ -79,19 +79,19 @@
                         <label class="inline text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Email Address</span>
                             <input id="emailInput" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input"
+                            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300 form-input"
                             name="email_address" type="text" value="{{ $info['email_address'] ?? '' }}" readonly required/>
                         </label>
                         {{-- Mobile --}}
                         <div class="z-0 w-full group block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
                             <div class="flex mt-1">
-                                <span class="inline-flex items-center px-3 py-0 text-sm  text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600
+                                <span class="inline-flex items-center px-3 py-0 text-sm bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600
                                 dark:text-gray-400 dark:border-gray-600">+63</span>
                                 <input onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
                                 oninput="formatPhoneNumber(this)" class="phone-input block w-full text-sm rounded-r border border-gray-300
                                 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200
-                                dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
+                                dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300 form-input
                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 id="phoneNumber" maxlength="10" name="contact_number" type="number" value="{{ $info['contact_number'] ?? '' }}" readonly required/>
                             </div>
@@ -101,8 +101,8 @@
                      <!-- Present Address -->
                     <label class="inline text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Present Address</span>
-                        <p class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300"
+                        <p class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:border-purple-400
+                            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300"
                             placeholder="Present Address" id="addressPresent" name="address1" type="text" :value="">{{ $info->address2 . ' ' . $info->address1 }}
                         </p>
                     </label>
@@ -118,18 +118,18 @@
                                         2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd">
                                         </path></svg> --}}
                                     </div>
-                                    <p text="yyyy-mm-dd" class="pl-9 p-2 w-full mt-1 text-sm rounded border text-gray-900 border-gray-300 dark:border-gray-600
+                                    <p text="yyyy-mm-dd" class="pl-9 p-2 w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600
                                     dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
-                                    dark:text-gray-300" placeholder="YYYY-MM-DD" name="birth_date" type="text" :value="">{{ $info->birth_date }}
+                                    text-gray-700 dark:text-gray-300 form-input" placeholder="YYYY-MM-DD" name="birth_date" type="text" :value="">{{ $info->birth_date }}
                                     </p>
                             </div>
                         </div>
                     <!-- Birth Place -->
                     <label class="block text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Birth Place</span>
-                            <p class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 
-                            dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 
-                            text-gray-900 dark:text-gray-300" name="birth_place" type="text" :value="">{{ $info->birth_place }}
+                            <p class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600
+                            dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600
+                            text-gray-700 dark:text-gray-300 form-input" name="birth_place" type="text" :value="">{{ $info->birth_place }}
                             </p>
                     </label>
             </div>
@@ -142,9 +142,9 @@
                                 Civil Status
                             </span>
                             <p name="civil_status" id="civil_status" type="text" :value=""
-                               class="block w-full mt-1 text-sm rounded border border-gray-300 text-gray-900 dark:text-gray-300
-                               dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-purple-400
-                               focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600">{{ $info->civil_status }}
+                               class="block w-full mt-1 text-sm rounded border border-gray-300 text-gray-700 dark:text-gray-300
+                               bg-white dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-purple-400
+                               focus:ring-1focus:ring-purple-200 dark:focus:ring-purple-600">{{ $info->civil_status }}
                             </p>
                         </label>
                     </div>
@@ -152,8 +152,8 @@
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Nationality</span>
                             <p  name="nationality" id="nationality" type="text" :value=""
-                                class="block w-full mt-1 text-sm rounded border border-gray-300 text-gray-900 dark:text-gray-300
-                                dark:border-gray-600 bg-transparent dark:bg-gray-700 focus:border-purple-400 focus:ring-1
+                                class="block w-full mt-1 text-sm rounded border border-gray-300 text-gray-700 dark:text-gray-300
+                                dark:border-gray-600 bg-transparent bg-white dark:bg-gray-700 focus:border-purple-400 focus:ring-1
                                 focus:ring-purple-200 dark:focus:ring-purple-600">{{ $info->nationality }}
                             </p>
                         </label>
@@ -173,8 +173,8 @@
                                 <span class="text-gray-700 dark:text-gray-400">Tax Identification Number</span>
                                 <p onkeydown="return /[0-9-]/.test(event.key) || event.key ===
                                 'Backspace' || event.key === 'Delete'" oninput="formatTIN(this)"
-                                    class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:ring-1
-                                    focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300
+                                    class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700
+                                    focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300
                                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     id="tin" placeholder="000000000000" maxlength="12" name="tin" type="number" :value="">{{ $info->tin }}
                                 </p>
@@ -185,7 +185,7 @@
                                 <span class="text-gray-700 dark:text-gray-400">SSS Number</span>
                                 <p onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
                                     oninput="formatSSS(this)" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                                    focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
+                                    focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300 form-input
                                     [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     id="sss" placeholder="0000000000" maxlength="10" name="sss_num" type="number" :value="">{{ $info->sss_num }}
                                 </p>
@@ -200,7 +200,7 @@
                             <p onkeydown="return /[0-9-]/.test(event.key) || event.key ===
                             'Backspace' || event.key === 'Delete'" oninput="formatPagIbig(this)"
                                 class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
+                                focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300 form-input
                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 id="pagIbig" placeholder="000000000000"maxlength="12" name="pagibig_num" type="number" :value="">{{ $info->pagibig_num }}
                             </p>
@@ -211,7 +211,7 @@
                             <span class="text-gray-700 dark:text-gray-400">PhilHealth Number</span>
                             <p onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
                                 oninput="formatPhilHealth(this)" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700
-                                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
+                                focus:border-purple-400 focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300 form-input
                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 id="philHealth" placeholder="000000000000" maxlength="12" name="philhealth_num" type="number" :value="('philhealth_num')">{{ $info->philhealth_num }}
                             </p>
@@ -230,7 +230,7 @@
                     <div class="z-0 w-full group block text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Full Name</span>
                         <input id="emergencyNameInput" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input"
+                        focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300 form-input"
                         name="emergency_name" type="text" value="{{ $info['emergency_name'] ?? '' }}" readonly required/>
                     </div>
                 </div>
@@ -240,13 +240,13 @@
                     <div class="z-0 w-full group block text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Mobile Number</span>
                         <div class="flex mt-1">
-                            <span class="inline-flex items-center px-3 py-0 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md
+                            <span class="inline-flex items-center px-3 py-0 text-sm text bg-gray-200 border border-r-0 border-gray-300 rounded-l-md
                             dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600"
                                 >+63</span>
                                 <input onkeydown="return /[0-9-]/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete'"
                                 oninput="formatPhoneNumber(this)" class="phone-input block w-full text-sm rounded-r border border-gray-300
                                 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:ring-1 focus:ring-purple-200
-                                dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input
+                                dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300 form-input
                                 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 id="phoneNumberContact" maxlength="10" name="emergency_contactnum" type="number" value="{{ $info['emergency_contactnum'] ?? '' }}" readonly required/>
                         </div>
@@ -255,7 +255,7 @@
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Relationship</span>
                             <input id="emergencyRelationshipInput" class="block w-full mt-1 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400
-                            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-900 dark:text-gray-300 form-input"
+                            focus:ring-1 focus:ring-purple-200 dark:focus:ring-purple-600 text-gray-700 dark:text-gray-300 form-input"
                             name="emergency_relationship" type="text" value="{{ $info['emergency_relationship'] ?? '' }}" readonly required/>
                         </label>
                     </div>
@@ -263,6 +263,9 @@
             </div>
         @endforeach
     </form>
+
+    {{-- Script functions for Edit/Save --}}
+
     <script>
         var emailInput = document.getElementById('emailInput');
         var phoneNumberInput = document.getElementById('phoneNumber');
@@ -338,6 +341,9 @@
     </div>
 
 </x-app-layout>
+
+        {{-- Codes for Settings  --}}
+
     {{-- <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
