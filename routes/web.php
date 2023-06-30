@@ -109,10 +109,5 @@ Route::post('clockit/clockout', [ClockItController::class, 'clockOut'])->name('c
 Route::resource('clockit', ClockItController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 
 Route::get('/template/employeeview', [ManageUserController::class, 'index'])->name('manage.users.index');
-<<<<<<< HEAD
-Route::get('/template/add-user', [ManageUserController::class, 'create']);
-Route::post('/template/add-user', [ManageUserController::class,'store']);
-=======
 Route::get('/template/employeeview/add-user', [ManageUserController::class, 'create']);
 Route::post('/template/employeeview/add-user', [ManageUserController::class,'store']);
->>>>>>> main
