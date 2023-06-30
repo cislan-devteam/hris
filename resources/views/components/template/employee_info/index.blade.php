@@ -11,7 +11,7 @@
       <i class="fa-solid fa-circle-xmark fa-lg px-1" style="color: #ffffff;"  onclick="this.parentElement.style.display = 'none';"></i>
   </div>
   @endif
-<a href="/template/add-user" class="mb-6">
+<a href="/template/employeeview/add-user" class="mb-6 w-fit">
     <button class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg
     active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
         Add Employee
