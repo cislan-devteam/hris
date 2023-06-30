@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserRole;
+use App\Models\employee_information;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -90,5 +91,34 @@ class UserProfile extends Controller
         $user = User::find($id);
         $user->delete();
         return redirect('/tasks');
+    }
+
+    public function displayInfo()
+    {
+        if (auth()->check()) {
+            $user = auth()->user();
+
+            $infos = employee_information::where('id', $user->id)->get();
+
+            return view('profile.show')->with('infos', $infos);
+        }
+
+        else {
+            return redirect('/')->with('error', 'You must be logged in to view this page.');
+        }
+    }
+
+    public function updateInfo(Request $request)
+    {
+        $id = auth()->user()->id;
+        $info = employee_information::findOrFail($id);
+        $info->email_address = $request->input('email_address');
+        $info->contact_number = $request->input('contact_number');
+        $info->emergency_name = $request->input('emergency_name');
+        $info->emergency_contactnum = $request->input('emergency_contactnum');
+        $info->emergency_relationship = $request->input('emergency_relationship');
+        $info->save();
+        
+        return redirect()->back();
     }
 }
