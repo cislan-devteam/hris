@@ -42,8 +42,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 // })->name('tasks');
 
 Route::get('/tasks', [UserProfile::class, 'index'])->name('tasks');
-Route::get('/add-user', [UserProfile::class, 'create']);
-Route::post('/add-user', [UserProfile::class, 'store']);
+Route::get('/tasks/add-user', [UserProfile::class, 'create']);
+Route::post('/tasks/add-user', [UserProfile::class, 'store']);
 
 Route::get('/user/profile', [UserProfile::class, 'displayInfo'])->name('profile.show');
 Route::post('/user/profile', [UserProfile::class, 'updateInfo'])->name('profile.update');
@@ -56,10 +56,10 @@ Route::delete('/tasks/{id}', [UserProfile::class, 'destroy'])->name('tasks.destr
 
 // Time Off Controller
 Route::get('/timeoff', [TimeOffController::class, 'index'])->name('timeoff');
-Route::get('/create-time-off', [TimeOffController::class, 'create']);
-Route::post('/create-time-off', [TimeOffController::class, 'store'])->name('timeoff.store');
+Route::get('/timeoff/create-time-off', [TimeOffController::class, 'create']);
+Route::post('/timeoff/create-time-off', [TimeOffController::class, 'store'])->name('timeoff.store');
 
-Route::get('/view-timeoff/{id}', [TimeOffController::class, 'show'])->name('timeoff.shows');;
+Route::get('/timeoff/view-timeoff/{id}', [TimeOffController::class, 'show'])->name('timeoff.shows');;
 
 Route::get('/timeoff/{id}/edit', [TimeOffController::class, 'edit'])->name('timeoff.edit');
 Route::put('/timeoff/{id}/edit', [TimeOffController::class, 'update'])->name('timeoff.update');
@@ -109,5 +109,10 @@ Route::post('clockit/clockout', [ClockItController::class, 'clockOut'])->name('c
 Route::resource('clockit', ClockItController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 
 Route::get('/template/employeeview', [ManageUserController::class, 'index'])->name('manage.users.index');
+<<<<<<< HEAD
 Route::get('/template/add-user', [ManageUserController::class, 'create']);
 Route::post('/template/add-user', [ManageUserController::class,'store']);
+=======
+Route::get('/template/employeeview/add-user', [ManageUserController::class, 'create']);
+Route::post('/template/employeeview/add-user', [ManageUserController::class,'store']);
+>>>>>>> main

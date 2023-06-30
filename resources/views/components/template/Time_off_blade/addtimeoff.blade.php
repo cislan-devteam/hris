@@ -15,7 +15,7 @@
     <span class="mx-5 text-gray-500 dark:text-gray-300">
     /
     </span>
-    <a href="/create-time-off" class="text-violet-600 dark:text-blue-400 hover:underline">
+    <a href="/timeoff/create-time-off" class="text-violet-600 dark:text-blue-400 hover:underline">
         Add Time off
     </a>
     </div>
@@ -39,7 +39,7 @@
         @endif
 
     <!-- General elements -->
-    <form method="POST" action={{ url('/create-time-off') }} enctype="multipart/form-data">
+    <form method="POST" action={{ url('/timeoff/create-time-off') }} enctype="multipart/form-data">
         @csrf
         <div class="px-5  mb-8 p-3 w-full rounded-lg shadow-md dark:bg-gray-800">
             <label class="block text-sm">
