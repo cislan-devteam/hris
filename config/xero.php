@@ -1,39 +1,81 @@
 <?php
 
+use Webfox\Xero\Oauth2CredentialManagers\FileStore;
+
 return [
 
-    /*
-    * set the client id
-    */
-    'clientId' => env('XERO_CLIENT_ID'),
+    'api_host' => 'https://api.xero.com/api.xro/2.0',
 
-    /*
-    * set the client secret
-    */
-    'clientSecret' => env('XERO_CLIENT_SECRET'),
+    /************************************************************************
+     * Class used to store credentials.
+     * Must implement OauthCredentialManager Interface
+     ************************************************************************/
+    'credential_store' => FileStore::class,
 
-    /*
-    * Set the url to trigger the oauth process
-    */
-    'redirectUri' => env('XERO_REDIRECT_URL'),
+    /************************************************************************
+     * Disk used to store credentials.
+     ************************************************************************/
+    'credential_disk' => env('XERO_CREDENTIAL_DISK'),
 
-    /*
-    * Set the url to redirecto once authenticated;
-    */
-    'landingUri' => env('XERO_LANDING_URL', '/'),
+    'oauth' => [
+        /************************************************************************
+         * Client ID provided by Xero when registering your application
+         ************************************************************************/
+        'client_id'                  => env('XERO_CLIENT_ID'),
 
-    /**
-     * Set access token, when set will bypass the oauth2 process
-     */
-    'accessToken' => env('XERO_ACCESS_TOKEN', ''),
+        /************************************************************************
+         * Client Secret provided by Xero when registering your application
+         ************************************************************************/
+        'client_secret'              => env('XERO_CLIENT_SECRET'),
 
-    /**
-     * Set webhook token
-     */
-    'webhookKey' => env('XERO_WEBHOOK_KEY', ''),
+        /************************************************************************
+         * Webhook signing key provided by Xero when registering webhooks
+         ************************************************************************/
+        'webhook_signing_key'        => env('XERO_WEBHOOK_KEY', ''),
 
-    /**
-     * Set the scopes
-     */
-    'scopes' => env('XERO_SCOPES', 'openid email profile offline_access accounting.settings accounting.transactions accounting.contacts'),
+        /************************************************************************
+         * Then scopes you wish to request access to on your token
+         * https://developer.xero.com/documentation/oauth2/scopes
+         ************************************************************************/
+        'scopes'                     => [
+            'openid',
+            'email',
+            'profile',
+            'offline_access',
+            'accounting.settings',
+            'accounting.contacts',
+            'accounting.transactions',
+            'accounting.reports.read',
+            'payroll.employees',
+            'payroll.payruns',
+            'payroll.payruns.read',
+            'payroll.payslip',
+        ],
+
+        /************************************************************************
+         * Url to redirect to upon success
+         ************************************************************************/
+        'redirect_on_success'        => 'xero.auth.success',
+
+        /************************************************************************
+         * Url for Xero to redirect to upon granting access
+         * Unless you wish to change the default behaviour you should not need to
+         * change this
+         ************************************************************************/
+        'redirect_uri'               => 'xero.auth.callback',
+
+        /************************************************************************
+         * If the 'redirect_uri' is not a route name, but rather a full url set
+         * this to true and we won't wrap it in `route()`
+         ************************************************************************/
+        'redirect_full_url'          => false,
+
+        /************************************************************************
+         * Urls for Xero's Oauth integration, you shouldn't need to change these
+         ************************************************************************/
+        'url_authorize'              => 'https://login.xero.com/identity/connect/authorize',
+        'url_access_token'           => 'https://identity.xero.com/connect/token',
+        'url_resource_owner_details' => 'https://api.xero.com/api.xro/2.0/Organisation',
+    ],
+
 ];

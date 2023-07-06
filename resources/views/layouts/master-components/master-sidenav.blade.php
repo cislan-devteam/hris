@@ -91,6 +91,21 @@
             </span>
           </a>
         </li>
+
+      {{-- Xero --}}
+      <li class="relative px-6 py-3" x-data="{ isActive: window.location.pathname.startsWith('/clockit') }">
+        <span x-show="isActive" x-cloak class=" absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg "></span>
+        <a x-bind:class="{'text-gray-700 dark:text-white': isActive}" class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 "
+          href="{{ route('xero.auth.success') }}"
+          >
+        <svg  class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+          <span class="ml-4">
+            {{ __('Xero') }}
+          </span>
+        </a>
+      </li>
     </ul>
   </div>
 </aside>
